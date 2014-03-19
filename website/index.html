@@ -2,7 +2,8 @@
 
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.4.2/pure-min.css">
@@ -10,12 +11,13 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.1.3/zepto.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
-    <link rel="stylesheet" href="/static/style.css">
-    <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="style.css">
 
-    <script src="/static/main.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="main.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 
 
     <title>{{=it.portalConfig.website.siteTitle}}</title>
@@ -25,55 +27,111 @@
 
 <body>
 
-<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
-  <div class="container-fluid">
+<div class="wrapper">
+    <div class="box">
+        <div class="row row-offcanvas row-offcanvas-left">
+                      
+          
+            <!-- sidebar -->
+            <div class="column col-sm-2 col-xs-1 sidebar-offcanvas" id="sidebar">
+              
+                <ul class="nav">
+                    <li><a href="#" data-toggle="offcanvas" class="visible-xs text-center"><i class="glyphicon glyphicon-chevron-right"></i></a></li>
+                </ul>
+               
+                <ul class="nav hidden-xs" id="lg-menu">
+                    <li class="{{? it.selected === '' }}active{{?}}"><a href="/"><i class="glyphicon glyphicon-list-alt"></i> Home</a></li>
+                    <li class="{{? it.selected === 'getting_started' }}active{{?}}"><a href="/getting_started"><i class="glyphicon glyphicon-list"></i> Start Mining</a></li>
+                    <li class="{{? it.selected === 'stats' }}active{{?}}"><a href="/stats"><i class="glyphicon glyphicon-paperclip"></i> Stats</a></li>
+                    <li class="{{? it.selected === 'api' }}active{{?}}"><a href="/api"><i class="glyphicon glyphicon-refresh"></i> API</a></li>
+                </ul>
+                <ul class="list-unstyled hidden-xs" id="sidebar-footer">
+                    <li>
+                      <a href="http://www.bootply.com"><h3>WE</h3> <i class="glyphicon glyphicon-heart-empty"></i> BlackCoin</a>
+                    </li>
+                </ul>
+              
+                <!-- tiny only nav-->
+              <ul class="nav visible-xs" id="xs-menu">
+                    <li><a href="#featured" class="text-center"><i class="glyphicon glyphicon-list-alt"></i></a></li>
+                    <li><a href="#stories" class="text-center"><i class="glyphicon glyphicon-list"></i></a></li>
+                    <li><a href="#" class="text-center"><i class="glyphicon glyphicon-paperclip"></i></a></li>
+                    <li><a href="#" class="text-center"><i class="glyphicon glyphicon-refresh"></i></a></li>
+                </ul>
+              
+            </div>
+            <!-- /sidebar -->
+          
+            <!-- main right col -->
+            <div class="column col-sm-10 col-xs-11" id="main">
+                
+                <!-- top nav -->
+                <div class="navbar navbar-blue navbar-static-top">  
+                    <div class="navbar-header">
+                      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                      </button>
+                      <a href="/" class="navbar-brand logo">
+                        <img src="http://www.blackcoin.co/wp-content/uploads/2014/03/32x32.png"/>
+                    </a>
+                    <a href="#" class="navbar-brand">BlackCoin Pool</a>
+                    </div>
+                    <nav class="collapse navbar-collapse" role="navigation">
 
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">BlackCoin Pool (Beta)</a>
+                    <ul class="nav navbar-nav">
+                      <li>
+                        <a href="#"><i class="glyphicon glyphicon-home"></i> Home</a>
+                      </li>
+                      <li>
+                        <a href="#postModal" role="button" data-toggle="modal"><i class="glyphicon glyphicon-plus"></i> Post</a>
+                      </li>
+                      <li>
+                        <a href="#"><span class="badge">badge</span></a>
+                      </li>
+                    </ul>
+                    </nav>
+                </div>
+                <!-- /top nav -->
+              
+                <div class="padding">
+                    <div class="full col-sm-9">
+                      
+                        <!-- content -->                      
+                        <div class="row">
+
+                            <div id="page" class="col-12">
+                                {{=it.page}}
+                            </div>
+                        </div><!--/row-->
+                      
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <a href="#">Twitter</a> <small class="text-muted">|</small> <a href="#">Facebook</a> <small class="text-muted">|</small> <a href="#">Google+</a>
+                          </div>
+                        </div>
+                      
+                        <div class="row" id="footer">    
+                          <div class="col-sm-6">
+                            
+                          </div>
+                          <div class="col-sm-6">
+                            
+                          </div>
+                        </div>
+                      
+                        
+                      
+                    </div><!-- /col-9 -->
+                </div><!-- /padding -->
+            </div>
+            <!-- /main -->
+          
+        </div>
     </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="{{? it.selected === '' }}active{{?}}"><a href="/">Home</a></li>
-        <li class="{{? it.selected === 'getting_started' }}active{{?}}"><a href="/getting_started">Getting Started</a></li>
-        <li class="{{? it.selected === 'stats' }}active{{?}}"><a href="/stats">Stats</a></li>
-        <li class="{{? it.selected === 'api' }}active{{?}}"><a href="/api">API</a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-
-  </div>
-</nav>
-
-<main>
-    <div id="page">
-        {{=it.page}}
-    </div>
-</main>
-
-
-<footer>
-
-
-
-    <div>This site is powered by the open source&nbsp;<a href="https://github.com/zone117x/node-open-mining-portal/">NOMP</a>&nbsp;project created by Matthew Little and licensed under the&nbsp;<a href="http://www.gnu.org/licenses/gpl-2.0.html">GPL</a></div>
-    <div><i class="fa fa-heart"></i>&nbsp; Support this project by donating&nbsp;<i class="fa fa-btc"></i>&nbsp;BTC: 1KRotMnQpxu3sePQnsVLRy3EraRFYfJQFR</div>
-    <div id="communityFooter">
-        Community&nbsp;<i class="fa fa-comment"></i>&nbsp;: &nbsp;<a target="_blank" href="https://kiwiirc.com/client/irc.freenode.net/nomp">#nomp IRC</a>
-        &nbsp;&nbsp;|&nbsp;&nbsp;
-        <a target="_blank" href="http://reddit.com/r/nomp">/r/nomp</a>
-        &nbsp;&nbsp;|&nbsp;&nbsp;
-        <iframe src="http://ghbtns.com/github-btn.html?user=zone117x&repo=node-open-mining-portal&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="140" height="20"></iframe>
-    </div>
-
-</footer>
+</div>
 
 
 </body>

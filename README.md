@@ -64,9 +64,11 @@ giving hackers little reward and keeping your pool from being a target.
 
 
 #### Community / Support
-For support and general discussion join IRC #nomp: https://webchat.freenode.net/?channels=#nomp
+IRC
+* Support / general discussion join #nomp: https://webchat.freenode.net/?channels=#nomp
+* Development discussion join #nomp-dev: https://webchat.freenode.net/?channels=#nomp-dev
 
-For development discussion join #nomp-dev: https://webchat.freenode.net/?channels=#nomp-dev
+Join our subreddit [/r/nomp](http://reddit.com/r/nomp)!
 
 *Having problems getting the portal running due to some module dependency error?* It's probably because you
 didn't follow the instructions in this README. Please __read the usage instructions__ including [requirements](#requirements) and [downloading/installing](#1-downloading--installing). If you've followed the instructions completely and are still having problems then open an issue here on github or join our #nomp IRC channel and explain your problem :).
@@ -238,6 +240,11 @@ Description of options:
     "address": "mi4iBXbBsydtcc5yFmsff2zCFVX4XG7qJc", //Address to where block rewards are given
 
     "blockRefreshInterval": 1000, //How often to poll RPC daemons for new blocks, in milliseconds
+
+    /* How many milliseconds should have passed before new block transactions will trigger a new
+       job broadcast. */
+    "txRefreshInterval": 20000,
+
 
     //instanceId: 37, //Recommend not using this because a crypto-random one will be generated
 
