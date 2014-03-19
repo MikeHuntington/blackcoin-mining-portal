@@ -19,7 +19,7 @@
     "website": {
         "enabled": true,
         "siteTitle": "Cryppit",
-        "port": 80,
+        "port": 8080,
         "statUpdateInterval": 5
     },
     "proxy": {

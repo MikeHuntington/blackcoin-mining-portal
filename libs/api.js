@@ -77,6 +77,9 @@ module.exports = function(logger, poolConfigs){
                 },
                 pools:{
 
+                },
+                user:{
+                    
                 }
             };
 
