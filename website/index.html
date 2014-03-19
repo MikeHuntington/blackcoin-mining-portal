@@ -8,9 +8,14 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.4.2/pure-min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.1.3/zepto.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+
     <script src="/static/main.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
 
 
     <title>{{=it.portalConfig.website.siteTitle}}</title>
@@ -20,16 +25,32 @@
 
 <body>
 
-<header class="header">
-    <div class="pure-menu pure-menu-open pure-menu-horizontal">
-        <ul>
-            <li id="home" class="{{? it.selected === '' }}selected{{?}}"><a class="hot-swapper" href="/"><i class="fa fa-home"></i>&nbsp; Home</a></li>
-            <li class="{{? it.selected === 'getting_started' }}selected{{?}}"><a class="hot-swapper" href="/getting_started"><i class="fa fa-arrow-right"></i>&nbsp; Getting Started</a></li>
-            <li class="{{? it.selected === 'stats' }}selected{{?}}"><a class="hot-swapper" href="/stats"><i class="fa fa-bar-chart-o"></i>&nbsp; Stats</a></li>
-            <li class="{{? it.selected === 'api' }}selected{{?}}"><a class="hot-swapper" href="/api"><i class="fa fa-code"></i>&nbsp; API</a></li>
-        </ul>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+  <div class="container-fluid">
+
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">BlackCoin Pool (Beta)</a>
     </div>
-</header>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="{{? it.selected === '' }}active{{?}}"><a href="#">Home</a></li>
+        <li class="{{? it.selected === '' }}active{{?}}"><a href="#">Getting Started</a></li>
+        <li class="{{? it.selected === '' }}active{{?}}"><a href="#">Stats</a></li>
+        <li class="{{? it.selected === '' }}active{{?}}"><a href="#">API</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+
+  </div>
+</nav>
 
 <main>
     <div id="page">
