@@ -18,6 +18,7 @@ body{
 
 
 }
+body { padding-top: 70px; }
 header{
     background-color: #f3f2ef;
 }
