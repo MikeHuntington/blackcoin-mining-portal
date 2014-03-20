@@ -95,7 +95,7 @@ hr {
 
 .navbar-blue li>a:hover, .navbar-blue li>a:focus, .navbar-blue .open, .navbar-blue .open>a, .navbar-blue .open>a:hover, .navbar-blue .open>a:focus {
    background-color:#EBCE2A;
-   color:#fff;
+   color:#000;
 }
 
 .navbar-brand {
