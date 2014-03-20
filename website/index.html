@@ -86,7 +86,7 @@
                     <ul class="nav navbar-nav">
                       <li><a href="#"><i class="glyphicon glyphicon-user"></i> {{=JSON.stringify(it.stats.global.workers)}} Miners</a></li>
                       <li><a href="#"><i class="glyphicon glyphicon-dashboard"></i> {{=JSON.stringify(it.stats.global.hashrate)}} MH/s</a></li>
-                      <li><a href="#"><i class="glyphicon glyphicon-ok"></i> {{=parseInt(JSON.stringify(it.stats.pools[0].poolStats.validShares))}} Shares</a></li>
+                      <li><a href="#"><i class="glyphicon glyphicon-ok"></i> {{=it.stats.pools[0].poolStats.validShares}} Shares</a></li>
                     </ul>
                     </nav>
                 </div>
