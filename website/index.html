@@ -40,10 +40,11 @@
                 </ul>
                
                 <ul class="nav hidden-xs" id="lg-menu">
-                    <li class="{{? it.selected === '' }}active{{?}}"><a href="/"><i class="glyphicon glyphicon-list-alt"></i> Home</a></li>
-                    <li class="{{? it.selected === 'getting_started' }}active{{?}}"><a href="/getting_started"><i class="glyphicon glyphicon-list"></i> Start Mining</a></li>
-                    <li class="{{? it.selected === 'stats' }}active{{?}}"><a href="/stats"><i class="glyphicon glyphicon-paperclip"></i> Stats</a></li>
-                    <li class="{{? it.selected === 'api' }}active{{?}}"><a href="/api"><i class="glyphicon glyphicon-refresh"></i> API</a></li>
+                    <li class="{{? it.selected === '' }}active{{?}}"><a href="/"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+                    <li class="{{? it.selected === 'getting_started' }}active{{?}}"><a href="/getting_started"><i class="glyphicon glyphicon-thumbs-up"></i> Start Mining</a></li>
+                    <li class="{{? it.selected === 'getting_started' }}active{{?}}"><a href="/getting_started"><i class="glyphicon glyphicon-user"></i> My Miner</a></li>
+                    <li class="{{? it.selected === 'stats' }}active{{?}}"><a href="/stats"><i class="glyphicon glyphicon-signal"></i> Stats</a></li>
+                    <li class="{{? it.selected === 'api' }}active{{?}}"><a href="/api"><i class="glyphicon glyphicon-cloud"></i> API</a></li>
                 </ul>
                 <ul class="list-unstyled hidden-xs" id="sidebar-footer">
                     <li>
@@ -53,10 +54,11 @@
               
                 <!-- tiny only nav-->
               <ul class="nav visible-xs" id="xs-menu">
-                    <li><a href="#featured" class="text-center"><i class="glyphicon glyphicon-list-alt"></i></a></li>
-                    <li><a href="#stories" class="text-center"><i class="glyphicon glyphicon-list"></i></a></li>
-                    <li><a href="#" class="text-center"><i class="glyphicon glyphicon-paperclip"></i></a></li>
-                    <li><a href="#" class="text-center"><i class="glyphicon glyphicon-refresh"></i></a></li>
+                    <li class="{{? it.selected === '' }}active{{?}}"><a href="/" class="text-center"><i class="glyphicon glyphicon-home"></i></a></li>
+                    <li class="{{? it.selected === 'getting_started' }}active{{?}}"><a href="/getting_started" class="text-center"><i class="glyphicon glyphicon-thumbs-up"></i></a></li>
+                    <li class="{{? it.selected === 'my_miner' }}active{{?}}"><a href="/my_miner" class="text-center"><i class="glyphicon glyphicon-user"></i></a></li>
+                    <li class="{{? it.selected === 'stats' }}active{{?}}"><a href="/stats" class="text-center"><i class="glyphicon glyphicon-signal"></i></a></li>
+                    <li class="{{? it.selected === 'api' }}active{{?}}"><a href="/api" class="text-center"><i class="glyphicon glyphicon-cloud"></i></a></li>
                 </ul>
               
             </div>
@@ -82,15 +84,7 @@
                     <nav class="collapse navbar-collapse" role="navigation">
 
                     <ul class="nav navbar-nav">
-                      <li>
-                        <a href="#"><i class="glyphicon glyphicon-home"></i> Home</a>
-                      </li>
-                      <li>
-                        <a href="#postModal" role="button" data-toggle="modal"><i class="glyphicon glyphicon-plus"></i> Post</a>
-                      </li>
-                      <li>
-                        <a href="#"><span class="badge">badge</span></a>
-                      </li>
+                      <!-- PUT STATS HERE -->
                     </ul>
                     </nav>
                 </div>
