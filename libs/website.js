@@ -63,7 +63,8 @@ module.exports = function(logger){
         'home.html': '',
         'getting_started.html': 'getting_started',
         'stats.html': 'stats',
-        'api.html': 'api'
+        'api.html': 'api',
+        'my_miner.html': 'my_miner'
     };
 
     var pageTemplates = {};
