@@ -82,19 +82,23 @@ hr {
 }
 
 .navbar-blue li > a,.navbar-toggle  {
-   color:#efefef;
+   color:#EBCE2A;
 }
 
 .navbar-blue .dropdown-menu li a {color:#2A4888;}
 .navbar-blue .dropdown-menu li > a {padding-left:30px;}
 
 .navbar-blue li>a:hover, .navbar-blue li>a:focus, .navbar-blue .open, .navbar-blue .open>a, .navbar-blue .open>a:hover, .navbar-blue .open>a:focus {
-   background-color:#2A4888;
+   background-color:#EBCE2A;
    color:#fff;
 }
 
 .navbar-brand {
     color: #fff;
+}
+
+.navbar-brand:hover {
+    color: #BAA322;
 }
 
 #main {
@@ -120,7 +124,7 @@ hr {
     text-shadow:0 0 2px #000000;
     padding-left:5px;
 }
-#sidebar .nav li>a:hover {
+#sidebar .nav li>a:hover, #sidebar .nav li.selected {
     background-color:#393939;
 }
 
