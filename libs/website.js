@@ -70,13 +70,23 @@ module.exports = function(logger){
     var pageTemplates = {};
 
     var pageProcessed = {};
+    var indexesProcessed = {};
 
 
     var processTemplates = function(){
+
         for (var pageName in pageTemplates){
+            if (pageName === 'index') continue;
             pageProcessed[pageName] = pageTemplates[pageName]({
                 poolsConfigs: poolConfigs,
                 stats: portalStats.stats,
+                portalConfig: portalConfig
+            });
+            indexesProcessed[pageName] = pageTemplates.index({
+                page: pageProcessed[pageName],
+                selected: pageName,
+                stats: portalStats.stats,
+                poolConfigs: poolConfigs,
                 portalConfig: portalConfig
             });
         }
@@ -139,7 +149,7 @@ module.exports = function(logger){
 
     var route = function(req, res, next){
         var pageId = req.params.page || '';
-        var requestedPage = getPage(pageId);
+        /*var requestedPage = getPage(pageId);
         if (requestedPage){
             var data = pageTemplates.index({
                 page: requestedPage,
@@ -149,6 +159,9 @@ module.exports = function(logger){
                 portalConfig: portalConfig
             });
             res.end(data);
+        }*/
+        if (pageId in indexesProcessed){
+            res.end(indexesProcessed[pageId]);
         }
         else
             next();
