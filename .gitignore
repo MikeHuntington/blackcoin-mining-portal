@@ -1,5 +1,4 @@
 node_modules/
 .idea/
 pool_configs/
-config.json
 npm-debug.log
