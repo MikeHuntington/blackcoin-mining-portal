@@ -18,7 +18,7 @@
     },
     "website": {
         "enabled": true,
-        "siteTitle": "BlackCoinPool.com",
+        "siteTitle": "BlackCoin Pool",
         "port": 8080,
         "statUpdateInterval": 5,
         "hashrateWindow": 600
