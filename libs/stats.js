@@ -106,7 +106,6 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                         var orphanedRounds = [];
                         var confirmedRounds = [];
-                        var pendingRounds = [];
                         //Rounds that are not confirmed yet are removed from the round array
                         //We also get reward amount for each block from daemon reply
                         rounds.forEach(function(r){
@@ -130,32 +129,26 @@ module.exports = function(logger, portalConfig, poolConfigs){
                                 r.magnitude = r.reward / r.amount;
                                 confirmedRounds.push(r);
                             }
-                            else if (r.category === 'immature'){
-                                r.amount = tx.result.amount;
-                                r.magnitude = r.reward / r.amount;
-                                pendingRounds.push(r);
-                            }
 
                         });
 
-                        if (orphanedRounds.length === 0 && confirmedRounds.length === 0 && pendingRounds.length === 0){
+                        if (orphanedRounds.length === 0 && confirmedRounds.length === 0){
                             callback('done - no confirmed, pending or orhpaned rounds');
                         }
                         else{
-                            callback(null, confirmedRounds, pendingRounds, orphanedRounds);
+                            callback(null, confirmedRounds, orphanedRounds);
                         }
                     });
                 },
 
                 /* Does a batch redis call to get shares contributed to each round. Then calculates the reward
                    amount owned to each miner for each round. */
-                function(confirmedRounds, pendingRounds, orphanedRounds, callback){
+                function(confirmedRounds, orphanedRounds, callback){
 
 
                     var rounds = [];
                     for (var i = 0; i < orphanedRounds.length; i++) rounds.push(orphanedRounds[i]);
                     for (var i = 0; i < confirmedRounds.length; i++) rounds.push(confirmedRounds[i]);
-                    for (var i = 0; i < pendingRounds.length; i++) rounds.push(pendingRounds[i]);
 
                     var shares = [];
 
@@ -203,27 +196,6 @@ module.exports = function(logger, portalConfig, poolConfigs){
                             }
                         }
 
-                        // Iterate through the rest of the share results which are for the worker rewards
-                        var pendingRewards = {};
-                        for (var i = (orphanedRounds.length + confirmedRounds.length); i < allWorkerShares.length; i++){
-
-                            var round = rounds[i];
-                            var workerShares = allWorkerShares[i];
-
-                            var reward = round.reward * (1 - _this.poolConfigs[coin].shareProcessing.internal.feePercent);
-
-                            var totalShares = Object.keys(workerShares).reduce(function(p, c){
-                                return p + parseInt(workerShares[c])
-                            }, 0);
-
-
-                            for (var worker in workerShares){
-                                var percent = parseInt(workerShares[worker]) / totalShares;
-                                var workerRewardTotal = Math.floor(reward * percent);
-                                if (!(worker in workerRewards)) workerRewards[worker] = 0;
-                                pendingRewards[worker] += workerRewardTotal;
-                            }
-                        }
 
 
                         //this calculates profit if you wanna see it
@@ -240,15 +212,14 @@ module.exports = function(logger, portalConfig, poolConfigs){
                         console.log('pool profit percent' + ((poolTotalRewards - workerTotalRewards) / poolTotalRewards));
                         */
 
-                        callback(null, rounds, workerRewards, pendingRewards, orphanMergeCommands);
+                        callback(null, rounds, workerRewards, orphanMergeCommands);
                     });
                 },
 
                 /* Does a batch call to redis to get worker existing balances from coin_balances*/
-                function(rounds, workerRewards, pendingRewards, orphanMergeCommands, callback){
+                function(rounds, workerRewards, orphanMergeCommands, callback){
 
                     var confirmedWorkers = Object.keys(workerRewards);
-                    var pendingWorkers = Object.keys(pendingRewards);
 
                     client.hmget([coin + '_balances'].concat([address]), function(error, results){
                         if (error){
@@ -264,7 +235,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                         }
 
 
-                        callback(null, rounds, workerRewards, pendingRewards, workerBalances, orphanMergeCommands);
+                        callback(null, rounds, workerRewards, workerBalances, orphanMergeCommands);
                     });
 
                 },
@@ -275,7 +246,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                  when deciding the sent balance, it the difference should be -1*amount they had in db,
                  if not sending the balance, the differnce should be +(the amount they earned this round)
                  */
-                function(rounds, workerRewards, pendingRewards, workerBalances, orphanMergeCommands, callback){
+                function(rounds, workerRewards, workerBalances, orphanMergeCommands, callback){
                     
                     var magnitude = rounds[0].magnitude;
                     var workerPayments = {};
