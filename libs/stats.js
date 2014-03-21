@@ -101,6 +101,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
                             callback('done - redis error for getting blocks');
                             return;
                         }
+                        console.log("____________________________");
+                        console.log(results.length);
                         if (results.length === 0){
                             callback('done - no pending blocks in redis', 0, 0);
                             return;
