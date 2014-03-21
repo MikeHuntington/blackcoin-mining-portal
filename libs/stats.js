@@ -250,7 +250,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     var confirmedWorkers = Object.keys(workerRewards);
                     var pendingWorkers = Object.keys(pendingRewards);
 
-                    redisClient.hmget([coin + '_balances'].concat([address]), function(error, results){
+                    client.hmget([coin + '_balances'].concat([address]), function(error, results){
                         if (error){
                             callback('done - redis error with multi get balances');
                             return;
