@@ -42,7 +42,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
         var minerStats = {};
 
         async.each(poolConfigs, function(coin, cb){
-
+            console.log("ASYNC EACH --------------- POOLCONFIGS")
             minerStats[coin] = {};
 
             var poolConfig = poolConfigs[coin];
