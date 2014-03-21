@@ -74,7 +74,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                         var rounds = results.map(function(r){
                             var details = r.split(':');
-                            return {txHash: details[0], height: details[1], reward: details[2], amount:r.amount};
+                            return {txHash: details[0], height: details[1], reward: details[2], amount:r.amount, serialized: r};
                         });
 
                         console.log(JSON.stringify(rounds));
