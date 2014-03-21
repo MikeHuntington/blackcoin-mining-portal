@@ -77,7 +77,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
             ], function(err, results) {
 
-                miner[coin] = {};
+                minerStats[coin] = {};
                 minerStats[coin].rounds = results;
                 
             });
