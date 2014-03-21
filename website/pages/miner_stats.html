@@ -1,14 +1,4 @@
-<div>
-    Miner Stats
-    <br>
-
-    {{ for(var coin in it.stats.minerStats.coins) { }}
-	<div>{{=coin}} :: {{=it.stats.minerStats.coins[coin].payments.amount / it.stats.minerStats.coins[coin].payments.magnitude}}</div>
-	{{ } }}
-</div>
-
-<h1><strong>{{=it.stats.minerStats.address}}</strong></h1>
-
+{{=JSON.stringify(it.stats)}}
 <div class="panel panel-default">
     <div class="panel-heading"> <h4><i class="glyphicon glyphicon-question-sign"></i> How do I Start Mining</h4></div>
     <div class="panel-body">
