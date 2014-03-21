@@ -355,6 +355,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
             });
 
         }, function(err){
+            minerStats.address = address;
             _this.stats.minerStats = minerStats;
             cback();
         });
