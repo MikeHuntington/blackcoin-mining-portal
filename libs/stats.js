@@ -40,6 +40,9 @@ module.exports = function(logger, portalConfig, poolConfigs){
     this.getMinerStats = function(address, cback){
 
         var minerStats = {};
+        var poolConfig = poolConfigs[coin];
+        var internalConfig = poolConfig.shareProcessing.internal;
+        var redisConfig = internalConfig.redis;
         var client = redis.createClient(redisConfig.port, redisConfig.host);
 
         Object.keys(poolConfigs).forEach(function(coin){
