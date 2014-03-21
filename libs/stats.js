@@ -352,7 +352,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                 //minerStats[coin].pendingRewards = pendingRewards;
                 if(err)
-                    minerStats[coin].payments = {magnitude:0, amount:0};
+                    minerStats[coin].payments = {magnitude:1000, amount:0};
 
                 minerStats[coin].payments = {magnitude:magnitude, amount:payments};
 
