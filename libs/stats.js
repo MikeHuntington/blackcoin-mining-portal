@@ -330,17 +330,17 @@ module.exports = function(logger, portalConfig, poolConfigs){
                             callback('done - error with final redis commands for cleaning up ' + JSON.stringify(error));
                             return;
                         }
-                        callback(null, workerPayments[address]);
+                        callback(null, magnitude, workerPayments[address]);
                     });
 
 
 
                 }
 
-            ], function(err, payments) {
+            ], function(err, magnitude, payments) {
 
                 //minerStats[coin].pendingRewards = pendingRewards;
-                minerStats[coin].payments = payments;
+                minerStats[coin].payments = {magnitude:magnitude, amount:payments};
 
                 cb();
             });
