@@ -274,6 +274,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                 minerStats[coin].rounds = rounds;
                 minerStats[coin].rewards = workerRewards;
                 minerStats[coin].pendingRewards = pendingRewards;
+                minerStats[coin].balace = workerBalances;
 
                 cb();
             });
