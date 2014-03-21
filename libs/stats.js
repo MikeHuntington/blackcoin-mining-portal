@@ -43,6 +43,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
         async.each(poolConfigs, function(coin, cb){
 
+            minerStats[coin] = {};
+
             var poolConfig = poolConfigs[coin];
             var internalConfig = poolConfig.shareProcessing.internal;
             var redisConfig = internalConfig.redis;
@@ -78,11 +80,11 @@ module.exports = function(logger, portalConfig, poolConfigs){
                 }
 
             ], function(err, results) {
-
-                minerStats[coin] = {};
+    
                 minerStats[coin].rounds = results;
                 cb();
             });
+
         }, function(err){
             _this.stats.minerStats = minerStats;
             cback();
