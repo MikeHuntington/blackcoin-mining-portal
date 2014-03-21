@@ -48,7 +48,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
         async.each(redisClients[0].coins, function(coin, cb){
 
 
-            var daemon = new Stratum.daemon.interface([_this.poolOptions.shareProcessing.internal.daemon]);
+            var daemon = new Stratum.daemon.interface([_this.poolConfigs[coin].shareProcessing.internal.daemon]);
 
 
             minerStats[coin] = {};
