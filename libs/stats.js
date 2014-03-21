@@ -351,7 +351,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                 else
                     minerStats.coins[coin].payments = {magnitude:magnitude, amount:payments};
 
-                minerStats.address = address;
+                //minerStats.address = address;
 
                 cb();
             });
