@@ -103,6 +103,8 @@ function SetupForPool(logger, poolOptions){
                         return {txHash: details[0], height: details[1], reward: details[2], serialized: r};
                     });
 
+                    console.log(JSON.stringify(rounds));
+
                     callback(null, rounds);
                 });
             },
