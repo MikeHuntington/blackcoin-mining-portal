@@ -314,7 +314,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                 if(err)
                     minerStats.coins[coin].payments = {amount:0};
                 else
-                    minerStats.coins[coin].payments = {amount:Number((payments/magnitude)).toLocaleString('en')};
+                    minerStats.coins[coin].payments = {amount:Number((payments/magnitude)).toLocaleString('en').toString()};
 
                 cb();
             });
