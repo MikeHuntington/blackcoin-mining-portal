@@ -133,9 +133,6 @@ module.exports = function(logger, portalConfig, poolConfigs){
                                 confirmedRounds.push(r);
                             }
 
-                            console.log("____________________rounds_________________");
-                            console.log(confirmedRounds);
-
                         });
 
                         if (orphanedRounds.length === 0 && confirmedRounds.length === 0){
@@ -259,8 +256,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                  */
                 function(rounds, workerRewards, workerBalances, orphanMergeCommands, callback){
                     
-                    var magnitude = rounds[0].magnitude;
-                    console.log("____________________magnitude_________________");
+                    var magnitude = 100000000;
                     console.log(rounds);
                     var workerPayments = {};
                     var balanceUpdateCommands = [];
