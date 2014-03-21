@@ -287,14 +287,9 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                 function(magnitude, workerPayments, finalRedisCommands, callback){
 
-                    var sendManyCmd = ['', {}];
-                    for (var address in workerPayments){
-                        sendManyCmd[1][address] = workerPayments[address] / magnitude;
-                    }
 
                     console.log(JSON.stringify(finalRedisCommands, null, 4));
                     console.log(JSON.stringify(workerPayments, null, 4));
-                    console.log(JSON.stringify(sendManyCmd, null, 4));
 
                     client.multi(finalRedisCommands).exec(function(error, results){
                         if (error){
@@ -303,7 +298,6 @@ module.exports = function(logger, portalConfig, poolConfigs){
                         }
                         callback(null, magnitude, workerPayments[address]);
                     });
-
 
 
                 }
