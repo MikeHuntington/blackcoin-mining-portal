@@ -50,7 +50,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                blocks. */
                 function(callback){
 
-                    client.coins.forEach(function(coin){
+                    redis.client.coins.forEach(function(coin){
                         redis.client.smembers(coin + '_blocksPending', function(error, results){
 
                             if (error){
