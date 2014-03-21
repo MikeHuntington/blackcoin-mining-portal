@@ -60,12 +60,12 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                         if (error){
                             paymentLogger.error('redis', 'Could get blocks from redis ' + JSON.stringify(error));
-                            callback('-----------------------------------------------------');
+                            console.log('-----------------------------------------------------');
                             callback('done - redis error for getting blocks');
                             return;
                         }
                         if (results.length === 0){
-                            callback('-----------------------------------------------------');
+                            console.log('-----------------------------------------------------');
                             callback('done - no pending blocks in redis');
                             return;
                         }
@@ -80,7 +80,9 @@ module.exports = function(logger, portalConfig, poolConfigs){
                 }
 
             ], function(err, results) {
-    
+                console.log('-----------------------------------------------------');
+                console.log('WATER FALL ENDED')
+                console.log('-----------------------------------------------------');
                 minerStats[coin].rounds = results;
                 cb();
             });
