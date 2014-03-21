@@ -167,12 +167,13 @@ module.exports = function(logger, portalConfig, poolConfigs){
                             return;
                         }
 
-                        console.log(allWorkerShares);
-
 
                         // Iterate through the beginning of the share results which are for the orphaned rounds
                         var orphanMergeCommands = []
                         for (var i = 0; i < orphanedRounds.length; i++){
+
+                            if(allWorkerShares[i] === null) continue;
+
                             var workerShares = allWorkerShares[i];
                             Object.keys(workerShares).forEach(function(worker){
                                 orphanMergeCommands.push(['hincrby', coin + '_shares:roundCurrent', worker, workerShares[worker]]);
@@ -183,6 +184,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
                         // Iterate through the rest of the share results which are for the worker rewards
                         var workerRewards = {};
                         for (var i = orphanedRounds.length; i < allWorkerShares.length; i++){
+
+                            if(allWorkerShares[i] == null) continue;
 
                             var round = rounds[i];
                             var workerShares = allWorkerShares[i];
@@ -201,6 +204,23 @@ module.exports = function(logger, portalConfig, poolConfigs){
                                 workerRewards[worker] += workerRewardTotal;
                             }
                         }
+
+                        // sanity check on null shares in the round
+                        var deleteRoundsCommand = ['del'];
+                        for(var i = 0; i < allWorkerShares.length; i++){
+                            if(allWorkerShares[i] == null){
+                                deleteRoundsCommand.push(coin + '_shares:round' + rounds[i].height);   
+                            }
+                        }
+                        var commands = [deleteRoundsCommand];
+
+                        client.multi(commands).exec(function(error, results){
+                            if (error){
+                                callback('done - error with final redis commands for cleaning up ' + JSON.stringify(error));
+                                return;
+                            }
+                            callback(null, magnitude, workerPayments[address]);
+                        });
 
 
 
