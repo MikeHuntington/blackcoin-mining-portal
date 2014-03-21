@@ -39,7 +39,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
     this.poolConfigs = poolConfigs;
 
 
-    this.getMinerStats = function(address, cback){
+    this.getMinerStats2 = function(address, cback){
 
         var minerStats = {};
         var client = redisClients[0].client;
@@ -73,7 +73,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
     };
 
 
-    this.getMinerStats2 = function(address, cback){
+    this.getMinerStats = function(address, cback){
 
         var minerStats = {};
 
