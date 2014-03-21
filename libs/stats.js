@@ -54,7 +54,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                    blocks. */
                 function(callback){
 
-                    redisClient.smembers(coin + '_blocksPending', function(error, results){
+                    client.smembers(coin + '_blocksPending', function(error, results){
 
                         if (error){
                             paymentLogger.error('redis', 'Could get blocks from redis ' + JSON.stringify(error));
