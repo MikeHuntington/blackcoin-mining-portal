@@ -42,14 +42,10 @@ module.exports = function(logger, portalConfig, poolConfigs){
         var minerStats = {};
         console.log("PoolCONFIG -----------------------------------------------", _this.poolConfigs.length);
 
-        async.each(poolConfigs, function(coin, cb){
+        async.each(redisClients[0].coins, function(coin, cb){
             console.log("ASYNC EACH --------------- POOLCONFIGS")
             minerStats[coin] = {};
-
-            var poolConfig = poolConfigs[coin];
-            var internalConfig = poolConfig.shareProcessing.internal;
-            var redisConfig = internalConfig.redis;
-            var client = redis.createClient(redisConfig.port, redisConfig.host);
+            var client = redisClients[0].client;
             
             async.waterfall([
 
