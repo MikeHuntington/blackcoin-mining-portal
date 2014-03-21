@@ -40,60 +40,45 @@ module.exports = function(logger, portalConfig, poolConfigs){
     this.getMinerStats = function(address, callback){
 
         var minerStats = {};
+        var client = redis.createClient(redisConfig.port, redisConfig.host);
 
-        async.each(redisClients, function(redis, callback){
-
-
+        Object.keys(poolConfigs).forEach(function(coin){
+            
             async.waterfall([
 
                 /* Call redis to get an array of rounds - which are coinbase transactions and block heights from submitted
-               blocks. */
-                function(cback){
+                   blocks. */
+                function(callback){
 
-                    redis.coins.forEach(function(coin){
-                        redis.client.smembers(coin + '_blocksPending', function(error, results){
+                    redisClient.smembers(coin + '_blocksPending', function(error, results){
 
-                            if (error){
-                                paymentLogger.error('redis', 'Could get blocks from redis ' + JSON.stringify(error));
-                                cback('done - redis error for getting blocks');
-                                return;
-                            }
-                            if (results.length === 0){
-                                cback('done - no pending blocks in redis');
-                                return;
-                            }
+                        if (error){
+                            paymentLogger.error('redis', 'Could get blocks from redis ' + JSON.stringify(error));
+                            callback('done - redis error for getting blocks');
+                            return;
+                        }
+                        if (results.length === 0){
+                            callback('done - no pending blocks in redis');
+                            return;
+                        }
 
-                            var rounds = results.map(function(r){
-                                var details = r.split(':');
-                                return {txHash: details[0], height: details[1], reward: details[2], serialized: r};
-                            });
-
-                            cback(null, rounds);
+                        var rounds = results.map(function(r){
+                            var details = r.split(':');
+                            return {txHash: details[0], height: details[1], reward: details[2], serialized: r};
                         });
-                    });
 
+                        callback(null, rounds);
+                    });
                 }
 
+            ], function(err, results) {
 
-            ], function(err, result){
-                callback(null, result);
-            });
-
-        }, function(err, results){
-
-            if (err){
-                console.log('error getting all stats' + JSON.stringify(err));
-                callback();
-                return;
+                minerStats[coin].rounds = results;
+                
             }
-
-            minerStats.rounds = results;
-            _this.stats.minerStats = minerStats;
-
-            callback();
-
         });
 
+        _this.stats.minerStats = minerStats;
     };
 
 
