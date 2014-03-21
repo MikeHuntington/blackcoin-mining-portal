@@ -76,7 +76,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
     this.getMinerStats = function(address, cback){
 
         var minerStats = {};
-
+        minerStats.coins = {};
 
 
         async.each(redisClients[0].coins, function(coin, cb){
@@ -85,7 +85,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
             var daemon = new Stratum.daemon.interface([_this.poolConfigs[coin].shareProcessing.internal.daemon]);
 
 
-            minerStats.coins = {};
+            
             minerStats.coins[coin] = {};
             var client = redisClients[0].client;
             
