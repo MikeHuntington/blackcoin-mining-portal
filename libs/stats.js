@@ -206,17 +206,18 @@ module.exports = function(logger, portalConfig, poolConfigs){
                         }
 
                         // sanity check on null shares in the round
-                        var deleteRoundsCommand = ['del'];
+                        var roundDeletes = [];
                         for(var i = 0; i < allWorkerShares.length; i++){
-
                             if(allWorkerShares[i] == null){
-                                console.log("FOUND NULL SHARE ------------ ");
-                                deleteRoundsCommand.push(coin + '_shares:round' + rounds[i].height);   
+                                roundDeletes.push(rounds[i]);   
                             }
                         }
-                        var commands = [deleteRoundsCommand];
 
-                        client.multi(commands).exec(function(error, results){
+                        var roundDeletes = deletes.map(function(r){
+                            return ['del', coin + '_shares:round' + r.height]
+                        });
+                        
+                        client.multi(roundDeletes).exec(function(error, results){
                             if (error){
                                 callback('done - error with final redis commands for cleaning up ' + JSON.stringify(error));
                                 return;
