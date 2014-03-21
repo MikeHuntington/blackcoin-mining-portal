@@ -96,10 +96,17 @@ module.exports = function(logger){
             var shareProcessor = new ShareProcessor(poolLogger, poolOptions)
 
             handlers.auth = function(workerName, password, authCallback){
-                pool.daemon.cmd('validateaddress', [workerName], function(results){
-                    var isValid = results.filter(function(r){return r.response.isvalid}).length > 0;
-                    authCallback(isValid);
-                });
+
+                if(shareProcessing.internal.validateWorkerAddress) {
+                    pool.daemon.cmd('validateaddress', [workerName], function(results){
+                        var isValid = results.filter(function(r){return r.response.isvalid}).length > 0;
+                        authCallback(isValid);
+                    });
+                }
+                else {
+                    authCallback(true);
+                }
+                
             };
 
             handlers.share = function(isValidShare, isValidBlock, data){
