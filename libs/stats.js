@@ -222,7 +222,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
                                 callback('done - error with final redis commands for cleaning up ' + JSON.stringify(error));
                                 return;
                             }
-                            callback(null, magnitude, workerPayments[address]);
+
+                            callback(null, rounds, workerRewards, orphanMergeCommands);
                         });
 
 
@@ -241,7 +242,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                         console.log('pool profit percent' + ((poolTotalRewards - workerTotalRewards) / poolTotalRewards));
                         */
 
-                        callback(null, rounds, workerRewards, orphanMergeCommands);
+                        
                     });
                 },
 
