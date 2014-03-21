@@ -173,7 +173,7 @@ module.exports = function(logger){
         var address = req.params.address || null;
 
         if (address != null){
-            portalStats.getMinerStats(function(){
+            portalStats.getMinerStats(address, function(){
                 processTemplates();
 
                 res.end(indexesProcessed['miner_stats']);

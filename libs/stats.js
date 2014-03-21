@@ -37,11 +37,11 @@ module.exports = function(logger, portalConfig, poolConfigs){
     this.stats = {};
 
 
-    this.getMinerStats = function(callback){
+    this.getMinerStats = function(address, callback){
 
         var minerStats = {};
 
-        minerStats.name = "BLAH BLAH BLAH";
+        minerStats.name = address;
 
         _this.stats.minerStats = minerStats;
 
