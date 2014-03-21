@@ -98,10 +98,10 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                         if (error){
                             paymentLogger.error('redis', 'Could get blocks from redis ' + JSON.stringify(error));
-                            callback('done - redis error for getting blocks');
+                            callback('done - redis error for getting blocks', 0, 0);
                             return;
                         }
-                        console.log("____________________________");
+
                         console.log(results.length);
                         if (results.length === 0){
                             callback('done - no pending blocks in redis', 0, 0);
@@ -348,7 +348,9 @@ module.exports = function(logger, portalConfig, poolConfigs){
             ], function(err, magnitude, payments) {
 
                 //minerStats[coin].pendingRewards = pendingRewards;
-                console.log("___________________________________ ", err);
+                if(err)
+                    minerStats[coin].payments = {magnitude:0, amount:0};
+
                 minerStats[coin].payments = {magnitude:magnitude, amount:payments};
 
                 cb();
