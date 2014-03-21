@@ -9,7 +9,12 @@
 	<div class="panel panel-default">
 	    <div class="panel-heading"> <h4><i class="glyphicon glyphicon-asterisk"></i> {{=coin}}</h4></div>
 	    <div class="panel-body">
-	        <p class="lead">{{=it.stats.minerStats.coins[coin].payments.amount}}</p>
+	        <ul class="list-group">
+			  <li class="list-group-item">
+			    <span class="badge">{{=it.stats.minerStats.coins[coin].payments.amount}}</span>
+			    Confirmed {{=coin}}
+			  </li>
+			</ul>
 	    </div>
 	</div>
 	{{ } }}
