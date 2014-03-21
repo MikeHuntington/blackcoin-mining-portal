@@ -41,6 +41,9 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
     this.getMinerStats = function(address, cback){
 
+        minerStats[coin] = {};
+        var client = redisClients[0].client;
+
         async.each(redisClients[0].coins, function(coin, cb){
             
             client.hmget([coin + '_balances'].concat([address]), function(error, results){
