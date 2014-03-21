@@ -62,6 +62,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
                 }
 
                 minerStats[coin].payments = {magnitude:100000000, amount:workerBalances[address]};
+
+                cb();
             });
 
         }, function(err){
