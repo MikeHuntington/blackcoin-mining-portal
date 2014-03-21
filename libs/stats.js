@@ -167,6 +167,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
                             return;
                         }
 
+                        console.log(allWorkerShares);
+
 
                         // Iterate through the beginning of the share results which are for the orphaned rounds
                         var orphanMergeCommands = []
