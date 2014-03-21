@@ -41,11 +41,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
         var minerStats = {};
 
-        async.each(redisClients, function(client, callback){
+        async.each(redisClients, function(redis, callback){
 
-            console.log("*---------------------start------------------------*");
-            console.log(client.coins);
-            console.log("*--------------------end-------------------------*");
 
             async.waterfall([
 
@@ -53,25 +50,28 @@ module.exports = function(logger, portalConfig, poolConfigs){
                blocks. */
                 function(callback){
 
-                    client.smembers(coin + '_blocksPending', function(error, results){
+                    client.coins.forEach(function(coin){
+                        redis.client.smembers(coin + '_blocksPending', function(error, results){
 
-                        if (error){
-                            paymentLogger.error('redis', 'Could get blocks from redis ' + JSON.stringify(error));
-                            callback('done - redis error for getting blocks');
-                            return;
-                        }
-                        if (results.length === 0){
-                            callback('done - no pending blocks in redis');
-                            return;
-                        }
+                            if (error){
+                                paymentLogger.error('redis', 'Could get blocks from redis ' + JSON.stringify(error));
+                                callback('done - redis error for getting blocks');
+                                return;
+                            }
+                            if (results.length === 0){
+                                callback('done - no pending blocks in redis');
+                                return;
+                            }
 
-                        var rounds = results.map(function(r){
-                            var details = r.split(':');
-                            return {txHash: details[0], height: details[1], reward: details[2], serialized: r};
+                            var rounds = results.map(function(r){
+                                var details = r.split(':');
+                                return {txHash: details[0], height: details[1], reward: details[2], serialized: r};
+                            });
+
+                            callback(null, rounds);
                         });
-
-                        callback(null, rounds);
                     });
+
                 },
 
 
