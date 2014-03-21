@@ -346,6 +346,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
             ], function(err, magnitude, payments) {
 
                 //minerStats[coin].pendingRewards = pendingRewards;
+                console.log("___________________________________ ", err);
                 minerStats[coin].payments = {magnitude:magnitude, amount:payments};
 
                 cb();
