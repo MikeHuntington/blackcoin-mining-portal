@@ -213,11 +213,11 @@ module.exports = function(logger, portalConfig, poolConfigs){
                             }
                         }
 
-                        var roundDeletes = deletes.map(function(r){
+                        var deleteCommands = roundDeletes.map(function(r){
                             return ['del', coin + '_shares:round' + r.height]
                         });
-                        
-                        client.multi(roundDeletes).exec(function(error, results){
+
+                        client.multi(deleteCommands).exec(function(error, results){
                             if (error){
                                 callback('done - error with final redis commands for cleaning up ' + JSON.stringify(error));
                                 return;
