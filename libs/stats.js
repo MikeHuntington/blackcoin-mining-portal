@@ -42,7 +42,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
         var minerStats = {};
 
         async.each(redisClients[0].coins, function(coin, cb){
-            console.log("ASYNC EACH --------------- POOLCONFIGS")
+
             minerStats[coin] = {};
             var client = redisClients[0].client;
             
@@ -56,12 +56,10 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                         if (error){
                             paymentLogger.error('redis', 'Could get blocks from redis ' + JSON.stringify(error));
-                            console.log('-----------------------------------------------------');
                             callback('done - redis error for getting blocks');
                             return;
                         }
                         if (results.length === 0){
-                            console.log('-----------------------------------------------------');
                             callback('done - no pending blocks in redis');
                             return;
                         }
@@ -73,13 +71,75 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                         callback(null, rounds);
                     });
+                },
+
+                /* Does a batch rpc call to daemon with all the transaction hashes to see if they are confirmed yet.
+                It also adds the block reward amount to the round object - which the daemon gives also gives us. */
+                function(rounds, callback){
+
+                    var batchRPCcommand = rounds.map(function(r){
+                        return ['gettransaction', [r.txHash]];
+                    });
+
+                    daemon.batchCmd(batchRPCcommand, function(error, txDetails){
+
+                        if (error || !txDetails){
+                            callback('done - daemon rpc error with batch gettransactions ' + JSON.stringify(error));
+                            return;
+                        }
+
+                        txDetails = txDetails.filter(function(tx){
+                            if (tx.error || !tx.result){
+                                console.log('error with requesting transaction from block daemon: ' + JSON.stringify(t));
+                                return false;
+                            }
+                            return true;
+                        });
+
+                        var orphanedRounds = [];
+                        var confirmedRounds = [];
+                        //Rounds that are not confirmed yet are removed from the round array
+                        //We also get reward amount for each block from daemon reply
+                        rounds.forEach(function(r){
+
+                            var tx = txDetails.filter(function(tx){return tx.result.txid === r.txHash})[0];
+
+                            if (!tx){
+                                console.log('daemon did not give us back a transaction that we asked for: ' + r.txHash);
+                                return;
+                            }
+
+
+                            r.category = tx.result.details[0].category;
+
+                            if (r.category === 'orphan'){
+                                orphanedRounds.push(r);
+
+                            }
+                            else if (r.category === 'generate'){
+                                r.amount = tx.result.amount;
+                                r.magnitude = r.reward / r.amount;
+                                confirmedRounds.push(r);
+                            }
+
+                        });
+
+                        if (orphanedRounds.length === 0 && confirmedRounds.length === 0){
+                            callback('done - no confirmed or orhpaned rounds');
+                        }
+                        else{
+                            callback(null, confirmedRounds, orphanedRounds);
+                        }
+                    });
                 }
 
-            ], function(err, results) {
-                console.log('-----------------------------------------------------');
-                console.log('WATER FALL ENDED')
-                console.log('-----------------------------------------------------');
-                minerStats[coin].rounds = results;
+            ], function(err, confirmedRounds, orphanedRounds) {
+
+                minerStats[coin].rounds = {
+                    confirmed:confirmedRounds,
+                    orphaned:orphanedRounds
+                };
+                
                 cb();
             });
 
