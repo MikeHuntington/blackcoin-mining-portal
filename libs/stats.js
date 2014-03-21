@@ -186,7 +186,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                             var round = rounds[i];
                             var workerShares = allWorkerShares[i];
 
-                            var reward = round.reward * (1 - processingConfig.feePercent);
+                            var reward = round.reward * (1 - _this.poolConfigs[coin].shareProcessing.internal.feePercent);
 
                             var totalShares = Object.keys(workerShares).reduce(function(p, c){
                                 return p + parseInt(workerShares[c])
