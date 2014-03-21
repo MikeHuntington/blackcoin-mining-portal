@@ -1,5 +1,6 @@
+{{? it.stats.minerStats }}
 <div>
-    
+    <h1><strong>{{=it.stats.minerStats.address}} </strong> Stats</h1>
     <br>
 
     {{ for(var coin in it.stats.minerStats.coins) { }}
@@ -11,3 +12,4 @@
 	</div>
 	{{ } }}
 </div>
+{{?}}

@@ -39,40 +39,6 @@ module.exports = function(logger, portalConfig, poolConfigs){
     this.poolConfigs = poolConfigs;
 
 
-    this.getMinerStats2 = function(address, cback){
-
-        var minerStats = {};
-        var client = redisClients[0].client;
-
-        async.each(redisClients[0].coins, function(coin, cb){
-
-            minerStats[coin] = {};
-            
-            client.hmget([coin + '_balances'].concat([address]), function(error, results){
-                if (error){
-                    callback('done - redis error with multi get balances');
-                    return;
-                }
-
-
-                var workerBalances = {};
-
-                for (var i = 0; i < 1; i++){
-                    workerBalances[address] = parseInt(results[i]) || 0;
-                }
-
-                minerStats[coin].payments = {magnitude:100000000, amount:workerBalances[address]};
-
-                cb();
-            });
-
-        }, function(err){
-            _this.stats.minerStats = minerStats;
-            cback();
-        });
-    };
-
-
     this.getMinerStats = function(address, cback){
 
         var minerStats = {};
