@@ -65,7 +65,6 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     client.smembers(coin + '_blocksPending', function(error, results){
 
                         if (error){
-                            paymentLogger.error('redis', 'Could get blocks from redis ' + JSON.stringify(error));
                             callback('done - redis error for getting blocks', 0, 0);
                             return;
                         }
@@ -80,8 +79,6 @@ module.exports = function(logger, portalConfig, poolConfigs){
                             var details = r.split(':');
                             return {txHash: details[0], height: details[1], reward: details[2], amount:r.amount, serialized: r};
                         });
-
-                        console.log(JSON.stringify(rounds));
 
                         callback(null, rounds);
                     });
