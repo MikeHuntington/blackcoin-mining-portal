@@ -261,7 +261,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     
                     var magnitude = rounds[0].magnitude;
                     console.log("____________________magnitude_________________");
-                    console.log(magnitude);
+                    console.log(rounds);
                     var workerPayments = {};
                     var balanceUpdateCommands = [];
 
