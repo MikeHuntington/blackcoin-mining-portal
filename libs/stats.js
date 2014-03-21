@@ -269,12 +269,77 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                 },
 
-            ], function(err, rounds, workerRewards, pendingRewards, workerBalances) {
+                /* Calculate if any payments are ready to be sent and trigger them sending
+                 Get balance different for each address and pass it along as object of latest balances such as
+                 {worker1: balance1, worker2, balance2}
+                 when deciding the sent balance, it the difference should be -1*amount they had in db,
+                 if not sending the balance, the differnce should be +(the amount they earned this round)
+                 */
+                function(rounds, workerRewards, pendingRewards, workerBalances, orphanMergeCommands, callback){
+                    
+                    var magnitude = rounds[0].magnitude;
+                    var workerPayments = {};
 
-                minerStats[coin].rounds = rounds;
-                minerStats[coin].rewards = workerRewards;
-                minerStats[coin].pendingRewards = pendingRewards;
-                minerStats[coin].balace = workerBalances;
+                    for (var worker in workerRewards){
+                        workerPayments[worker] = (workerPayments[worker] || 0) + workerRewards[worker];
+                    }
+                    for (var worker in workerBalances){
+                        workerPayments[worker] = (workerPayments[worker] || 0) + workerBalances[worker];
+                    }
+                    for (var worker in workerPayments){
+                        balanceUpdateCommands.push(['hincrby', coin + '_balances', worker, workerRewards[worker]]);
+                    }
+
+                    var movePendingCommands = [];
+                    var deleteRoundsCommand = ['del'];
+                    rounds.forEach(function(r){
+
+                        if(r.category !== 'immature') {
+                            var destinationSet = r.category === 'orphan' ? '_blocksOrphaned' : '_blocksConfirmed';
+                            movePendingCommands.push(['smove', coin + '_blocksPending', coin + destinationSet, r.serialized]);
+                            deleteRoundsCommand.push(coin + '_shares:round' + r.height);
+                        }
+                    });
+
+                    var finalRedisCommands = [];
+
+                    finalRedisCommands = finalRedisCommands.concat(
+                        movePendingCommands,
+                        balanceUpdateCommands
+                    );
+
+                    finalRedisCommands.push(deleteRoundsCommand);
+
+                    callback(null, magnitude, workerPayments, finalRedisCommands);
+                },
+
+                function(magnitude, workerPayments, finalRedisCommands, callback){
+
+                    var sendManyCmd = ['', {}];
+                    for (var address in workerPayments){
+                        sendManyCmd[1][address] = workerPayments[address] / magnitude;
+                    }
+
+                    console.log(JSON.stringify(finalRedisCommands, null, 4));
+                    console.log(JSON.stringify(workerPayments, null, 4));
+                    console.log(JSON.stringify(sendManyCmd, null, 4));
+
+                    client.multi(finalRedisCommands).exec(function(error, results){
+                        if (error){
+                            callback('done - error with final redis commands for cleaning up ' + JSON.stringify(error));
+                            return;
+                        }
+                        callback(null, workerPayments[address]);
+                    });
+
+
+
+                }
+
+            ], function(err, payments) {
+
+                //minerStats[coin].pendingRewards = pendingRewards;
+                minerStats[coin].payments = payments;
 
                 cb();
             });
