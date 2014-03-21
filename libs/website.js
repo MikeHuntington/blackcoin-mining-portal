@@ -64,7 +64,8 @@ module.exports = function(logger){
         'getting_started.html': 'getting_started',
         'stats.html': 'stats',
         'api.html': 'api',
-        'miner.html': 'miner'
+        'miner.html': 'miner',
+        'miner_stats': 'miner_stats'
     };
 
     var pageTemplates = {};
@@ -172,7 +173,9 @@ module.exports = function(logger){
         var address = req.params.address || null;
 
         if (address != null){
-            
+            // Get miner stats
+
+            res.end(indexesProcessed['miner_stats']);
         }
         else
             next();
