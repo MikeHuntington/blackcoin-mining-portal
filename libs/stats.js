@@ -155,7 +155,9 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     var rounds = [];
                     for (var i = 0; i < orphanedRounds.length; i++) rounds.push(orphanedRounds[i]);
                     for (var i = 0; i < confirmedRounds.length; i++) rounds.push(confirmedRounds[i]);
-                        for (var i = 0; i < pendingRounds.length; i++) rounds.push(pendingRounds[i]);
+                    for (var i = 0; i < pendingRounds.length; i++) rounds.push(pendingRounds[i]);
+
+                    var shares = [];
 
 
                     var shareLookups = rounds.map(function(r){
@@ -201,6 +203,28 @@ module.exports = function(logger, portalConfig, poolConfigs){
                             }
                         }
 
+                        // Iterate through the rest of the share results which are for the worker rewards
+                        var pendingRewards = {};
+                        for (var i = (orphanedRounds.length + confirmedRounds.length); i < allWorkerShares.length; i++){
+
+                            var round = rounds[i];
+                            var workerShares = allWorkerShares[i];
+
+                            var reward = round.reward * (1 - _this.poolConfigs[coin].shareProcessing.internal.feePercent);
+
+                            var totalShares = Object.keys(workerShares).reduce(function(p, c){
+                                return p + parseInt(workerShares[c])
+                            }, 0);
+
+
+                            for (var worker in workerShares){
+                                var percent = parseInt(workerShares[worker]) / totalShares;
+                                var workerRewardTotal = Math.floor(reward * percent);
+                                if (!(worker in workerRewards)) workerRewards[worker] = 0;
+                                pendingRewards[worker] += workerRewardTotal;
+                            }
+                        }
+
 
                         //this calculates profit if you wanna see it
                         /*
@@ -216,14 +240,15 @@ module.exports = function(logger, portalConfig, poolConfigs){
                         console.log('pool profit percent' + ((poolTotalRewards - workerTotalRewards) / poolTotalRewards));
                         */
 
-                        callback(null, rounds, workerRewards, orphanMergeCommands);
+                        callback(null, rounds, workerRewards, pendingRewards, orphanMergeCommands);
                     });
                 },
 
-            ], function(err, rounds, workerRewards) {
+            ], function(err, rounds, workerRewards, pendingRewards) {
 
                 minerStats[coin].rounds = rounds;
                 minerStats[coin].rewards = workerRewards;
+                minerStats[coin].pendingRewards = pendingRewards;
 
                 cb();
             });
