@@ -2,6 +2,7 @@ var redis = require('redis');
 var async = require('async');
 
 var os = require('os');
+var Stratum = require('stratum-pool');
 
 
 module.exports = function(logger, portalConfig, poolConfigs){
@@ -35,13 +36,20 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
 
     this.stats = {};
+    this.poolConfigs = poolConfigs;
 
 
     this.getMinerStats = function(address, cback){
 
         var minerStats = {};
 
+
+
         async.each(redisClients[0].coins, function(coin, cb){
+
+
+            var daemon = new Stratum.daemon.interface([_this.poolOptions.shareProcessing.internal.daemon]);
+
 
             minerStats[coin] = {};
             var client = redisClients[0].client;
@@ -139,7 +147,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     confirmed:confirmedRounds,
                     orphaned:orphanedRounds
                 };
-                
+
                 cb();
             });
 
