@@ -279,6 +279,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     
                     var magnitude = rounds[0].magnitude;
                     var workerPayments = {};
+                    var balanceUpdateCommands = [];
 
                     for (var worker in workerRewards){
                         workerPayments[worker] = (workerPayments[worker] || 0) + workerRewards[worker];
