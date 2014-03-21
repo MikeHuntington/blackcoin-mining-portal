@@ -159,6 +159,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
                         return ['hgetall', coin + '_shares:round' + r.height]
                     });
 
+                    console.log(shareLookups);
+
                     client.multi(shareLookups).exec(function(error, allWorkerShares){
                         if (error){
                             callback('done - redis error with multi get rounds share')
