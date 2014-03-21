@@ -41,11 +41,55 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
         var minerStats = {};
 
-        minerStats.name = address;
+        async.each(redisClients, function(client, coin, callback){
 
-        _this.stats.minerStats = minerStats;
+            async.waterfall([
 
-        callback();
+                /* Call redis to get an array of rounds - which are coinbase transactions and block heights from submitted
+               blocks. */
+                function(callback){
+
+                    client.smembers(coin + '_blocksPending', function(error, results){
+
+                        if (error){
+                            paymentLogger.error('redis', 'Could get blocks from redis ' + JSON.stringify(error));
+                            callback('done - redis error for getting blocks');
+                            return;
+                        }
+                        if (results.length === 0){
+                            callback('done - no pending blocks in redis');
+                            return;
+                        }
+
+                        var rounds = results.map(function(r){
+                            var details = r.split(':');
+                            return {txHash: details[0], height: details[1], reward: details[2], serialized: r};
+                        });
+
+                        callback(null, rounds);
+                    });
+                },
+
+
+            ], function(err, result){
+                callback(null, result);
+            });
+
+        }, function(err, results){
+
+            if (err){
+                console.log('error getting all stats' + JSON.stringify(err));
+                callback();
+                return;
+            }
+
+            minerStats.rounds = results;
+            _this.stats.minerStats = minerStats;
+
+            callback();
+
+        });
+
     };
 
 
