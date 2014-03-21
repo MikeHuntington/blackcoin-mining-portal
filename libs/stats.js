@@ -102,7 +102,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                             return;
                         }
                         if (results.length === 0){
-                            callback('done - no pending blocks in redis');
+                            callback('done - no pending blocks in redis', 0, 0);
                             return;
                         }
 
