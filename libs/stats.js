@@ -169,8 +169,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                         });
 
                         if (orphanedRounds.length === 0 && confirmedRounds.length === 0){
-                            callback('done - no confirmed, pending or orhpaned rounds');
-                            console.log("_____________________ NO BLOCKS ___________________")
+                            callback('done - no confirmed, pending or orhpaned rounds', 0, 0);
                         }
                         else{
                             callback(null, confirmedRounds, orphanedRounds);
