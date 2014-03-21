@@ -3,11 +3,16 @@
     <h1><strong>{{=it.stats.minerStats.address}} </strong> Stats</h1>
     <br>
 
+    {{##def.convert = function(value) {
+		return Number(value).toLocaleString('en');
+	}
+	#}}
+
     {{ for(var coin in it.stats.minerStats.coins) { }}
 	<div class="panel panel-default">
 	    <div class="panel-heading"> <h4><i class="glyphicon glyphicon-question-sign"></i> {{=coin}}</h4></div>
 	    <div class="panel-body">
-	        <p class="lead">{{#Number(it.stats.minerStats.coins[coin].payments.amount / it.stats.minerStats.coins[coin].payments.magnitude).toLocaleString('en')}}</p>
+	        <p class="lead">{{#def.convert(it.stats.minerStats.coins[coin].payments.amount / it.stats.minerStats.coins[coin].payments.magnitude)}}</p>
 	    </div>
 	</div>
 	{{ } }}
