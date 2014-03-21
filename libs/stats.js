@@ -244,7 +244,32 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     });
                 },
 
-            ], function(err, rounds, workerRewards, pendingRewards) {
+                /* Does a batch call to redis to get worker existing balances from coin_balances*/
+                function(rounds, workerRewards, pendingRewards, orphanMergeCommands, callback){
+
+                    var confirmedWorkers = Object.keys(workerRewards);
+                    var pendingWorkers = Object.keys(pendingRewards);
+
+                    redisClient.hmget([coin + '_balances'].concat([address]), function(error, results){
+                        if (error){
+                            callback('done - redis error with multi get balances');
+                            return;
+                        }
+
+
+                        var workerBalances = {};
+
+                        for (var i = 0; i < 1; i++){
+                            workerBalances[address] = parseInt(results[i]) || 0;
+                        }
+
+
+                        callback(null, rounds, workerRewards, pendingRewards, workerBalances, orphanMergeCommands);
+                    });
+
+                },
+
+            ], function(err, rounds, workerRewards, pendingRewards, workerBalances) {
 
                 minerStats[coin].rounds = rounds;
                 minerStats[coin].rewards = workerRewards;
