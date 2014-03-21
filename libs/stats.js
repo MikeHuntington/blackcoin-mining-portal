@@ -292,6 +292,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                         balanceUpdateCommands.push(['hincrby', coin + '_balances', worker, workerRewards[worker]]);
                     }
 
+                    /*
                     var movePendingCommands = [];
                     var deleteRoundsCommand = ['del'];
                     rounds.forEach(function(r){
@@ -302,15 +303,15 @@ module.exports = function(logger, portalConfig, poolConfigs){
                             deleteRoundsCommand.push(coin + '_shares:round' + r.height);
                         }
                     });
+                    */
 
                     var finalRedisCommands = [];
 
                     finalRedisCommands = finalRedisCommands.concat(
-                        movePendingCommands,
                         balanceUpdateCommands
                     );
 
-                    finalRedisCommands.push(deleteRoundsCommand);
+                    //finalRedisCommands.push(deleteRoundsCommand);
 
                     callback(null, magnitude, workerPayments, finalRedisCommands);
                 },
