@@ -41,7 +41,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
         var minerStats = {};
 
-        Object.keys(poolConfigs).forEach(function(coin){
+        async.each(poolConfigs, function(coin, cb){
 
             var poolConfig = poolConfigs[coin];
             var internalConfig = poolConfig.shareProcessing.internal;
@@ -81,12 +81,12 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                 minerStats[coin] = {};
                 minerStats[coin].rounds = results;
-                
+                cb();
             });
+        }, function(err){
+            _this.stats.minerStats = minerStats;
+            cback();
         });
-
-        _this.stats.minerStats = minerStats;
-        cback();
     };
 
 
