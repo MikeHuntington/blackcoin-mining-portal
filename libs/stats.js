@@ -77,6 +77,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
         var minerStats = {};
         minerStats.coins = {};
+        minerStats.address = address;
 
 
         async.each(redisClients[0].coins, function(coin, cb){
@@ -350,8 +351,6 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     minerStats.coins[coin].payments = {magnitude:1000, amount:0};
                 else
                     minerStats.coins[coin].payments = {magnitude:magnitude, amount:payments};
-
-                //minerStats.address = address;
 
                 cb();
             });
