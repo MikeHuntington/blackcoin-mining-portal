@@ -41,7 +41,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
         var minerStats = {};
 
-        async.each(redisClients, function(client, coins, callback){
+        async.each(redisClients, function(client, callback){
 
             console.log("*---------------------start------------------------*");
             console.log(coins);
