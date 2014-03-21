@@ -77,6 +77,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
                             return {txHash: details[0], height: details[1], reward: details[2], amount:r.amount};
                         });
 
+                        console.log(JSON.stringify(rounds));
+
                         callback(null, rounds);
                     });
                 },
