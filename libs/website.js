@@ -173,9 +173,12 @@ module.exports = function(logger){
         var address = req.params.address || null;
 
         if (address != null){
-            // Get miner stats
+            portalStats.getMinerStats(function(){
+                processTemplates();
 
-            res.end(indexesProcessed['miner_stats']);
+                res.end(indexesProcessed['miner_stats']);
+
+            });
         }
         else
             next();
