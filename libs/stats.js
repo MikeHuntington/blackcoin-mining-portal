@@ -74,7 +74,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                         var rounds = results.map(function(r){
                             var details = r.split(':');
-                            return {txHash: details[0], height: details[1], reward: details[2], serialized: r};
+                            return {txHash: details[0], height: details[1], reward: details[2], amount:r.amount};
                         });
 
                         callback(null, rounds);
@@ -106,6 +106,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                         var orphanedRounds = [];
                         var confirmedRounds = [];
+                        var pendingRounds = [];
                         //Rounds that are not confirmed yet are removed from the round array
                         //We also get reward amount for each block from daemon reply
                         rounds.forEach(function(r){
@@ -129,22 +130,28 @@ module.exports = function(logger, portalConfig, poolConfigs){
                                 r.magnitude = r.reward / r.amount;
                                 confirmedRounds.push(r);
                             }
+                            else if (r.category === 'immature'){
+                                r.amount = tx.result.amount;
+                                r.magnitude = r.reward / r.amount;
+                                pendingRounds.push(r);
+                            }
 
                         });
 
-                        if (orphanedRounds.length === 0 && confirmedRounds.length === 0){
-                            callback('done - no confirmed or orhpaned rounds');
+                        if (orphanedRounds.length === 0 && confirmedRounds.length === 0 && pendingRounds.length === 0){
+                            callback('done - no confirmed, pending or orhpaned rounds');
                         }
                         else{
-                            callback(null, confirmedRounds, orphanedRounds);
+                            callback(null, confirmedRounds, pendingRounds, orphanedRounds);
                         }
                     });
                 }
 
-            ], function(err, confirmedRounds, orphanedRounds) {
+            ], function(err, confirmedRounds, pendingRounds, orphanedRounds) {
 
                 minerStats[coin].rounds = {
                     confirmed:confirmedRounds,
+                    pending:pendingRounds,
                     orphaned:orphanedRounds
                 };
 
