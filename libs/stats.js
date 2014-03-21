@@ -133,6 +133,9 @@ module.exports = function(logger, portalConfig, poolConfigs){
                                 confirmedRounds.push(r);
                             }
 
+                            console.log("____________________rounds_________________");
+                            console.log(confirmedRounds);
+
                         });
 
                         if (orphanedRounds.length === 0 && confirmedRounds.length === 0){
