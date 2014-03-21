@@ -40,6 +40,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
     this.getMinerStats = function(address, cback){
 
         var minerStats = {};
+        console.log("PoolCONFIG -----------------------------------------------", poolConfigs.length);
 
         async.each(poolConfigs, function(coin, cb){
             console.log("ASYNC EACH --------------- POOLCONFIGS")
