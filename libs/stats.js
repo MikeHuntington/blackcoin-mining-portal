@@ -55,11 +55,11 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                             if (error){
                                 paymentLogger.error('redis', 'Could get blocks from redis ' + JSON.stringify(error));
-                                callback('done - redis error for getting blocks');
+                                cback('done - redis error for getting blocks');
                                 return;
                             }
                             if (results.length === 0){
-                                callback('done - no pending blocks in redis');
+                                cback('done - no pending blocks in redis');
                                 return;
                             }
 
