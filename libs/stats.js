@@ -44,7 +44,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
         async.each(redisClients, function(client, callback){
 
             console.log("*---------------------start------------------------*");
-            console.log(coins);
+            console.log(client);
             console.log("*--------------------end-------------------------*");
 
             async.waterfall([
