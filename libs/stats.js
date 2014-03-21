@@ -48,7 +48,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                 /* Call redis to get an array of rounds - which are coinbase transactions and block heights from submitted
                blocks. */
-                function(callback){
+                function(cback){
 
                     redis.coins.forEach(function(coin){
                         redis.client.smembers(coin + '_blocksPending', function(error, results){
@@ -68,11 +68,11 @@ module.exports = function(logger, portalConfig, poolConfigs){
                                 return {txHash: details[0], height: details[1], reward: details[2], serialized: r};
                             });
 
-                            callback(null, rounds);
+                            cback(null, rounds);
                         });
                     });
 
-                },
+                }
 
 
             ], function(err, result){
