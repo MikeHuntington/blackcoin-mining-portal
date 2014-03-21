@@ -346,17 +346,17 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
             ], function(err, magnitude, payments) {
 
-                //minerStats[coin].pendingRewards = pendingRewards;
                 if(err)
                     minerStats.coins[coin].payments = {magnitude:1000, amount:0};
                 else
                     minerStats.coins[coin].payments = {magnitude:magnitude, amount:payments};
 
+                minerStats.address = address;
+
                 cb();
             });
 
         }, function(err){
-            minerStats.address = address;
             _this.stats.minerStats = minerStats;
             cback();
         });
