@@ -239,27 +239,6 @@ module.exports = function(logger, portalConfig, poolConfigs){
                             }
                         }
 
-                        // sanity check on null shares in the round
-                        var roundDeletes = [];
-                        for(var i = 0; i < allWorkerShares.length; i++){
-                            if(allWorkerShares[i] == null){
-                                roundDeletes.push(rounds[i]);   
-                            }
-                        }
-
-                        var deleteCommands = roundDeletes.map(function(r){
-                            return ['del', coin + '_shares:round' + r.height]
-                        });
-
-                        client.multi(deleteCommands).exec(function(error, results){
-                            if (error){
-                                callback('done - error with final redis commands for cleaning up ' + JSON.stringify(error));
-                                return;
-                            }
-
-                            callback(null, rounds, workerRewards, orphanMergeCommands);
-                        });
-
 
 
                         //this calculates profit if you wanna see it
@@ -321,9 +300,6 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     }
                     for (var worker in workerBalances){
                         workerPayments[worker] = (workerPayments[worker] || 0) + workerBalances[worker];
-                    }
-                    for (var worker in workerPayments){
-                        balanceUpdateCommands.push(['hincrby', coin + '_balances', worker, workerRewards[worker]]);
                     }
 
                     /*
