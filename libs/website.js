@@ -64,7 +64,7 @@ module.exports = function(logger){
         'getting_started.html': 'getting_started',
         'stats.html': 'stats',
         'api.html': 'api',
-        'my_miner.html': 'my_miner'
+        'miner.html': 'miner'
     };
 
     var pageTemplates = {};
@@ -168,10 +168,20 @@ module.exports = function(logger){
 
     };
 
+    var minerpage = function(req, res, next){
+        var address = req.params.address || null;
+
+        if (address != null){
+            
+        }
+        else
+            next();
+    };
+
 
     var liveStatConnections = {};
 
-
+    app.get('/miner/:address', minerpage);
     app.get('/:page', route);
     app.get('/', route);
 
