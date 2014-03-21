@@ -2,7 +2,7 @@
     Miner Stats
     <br>
 
-    {{ for(var coin in it.stats.minerStats) { }}
+    {{ for(var coin in it.stats.minerStats.coins) { }}
 	<div>{{=coin}} :: {{=it.stats.minerStats[coin].payments.amount / it.stats.minerStats[coin].payments.magnitude}}</div>
 	{{ } }}
 </div>

@@ -85,7 +85,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
             var daemon = new Stratum.daemon.interface([_this.poolConfigs[coin].shareProcessing.internal.daemon]);
 
 
-            minerStats[coin] = {};
+            minerStats.coins = {};
+            minerStats.coins[coin] = {};
             var client = redisClients[0].client;
             
             async.waterfall([
@@ -347,9 +348,9 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                 //minerStats[coin].pendingRewards = pendingRewards;
                 if(err)
-                    minerStats[coin].payments = {magnitude:1000, amount:0};
+                    minerStats.coins[coin].payments = {magnitude:1000, amount:0};
                 else
-                    minerStats[coin].payments = {magnitude:magnitude, amount:payments};
+                    minerStats.coins[coin].payments = {magnitude:magnitude, amount:payments};
 
                 cb();
             });
