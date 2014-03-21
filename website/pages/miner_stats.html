@@ -3,6 +3,6 @@
     <br>
 
     {{ for(var coin in it.stats.minerStats) { }}
-	<div>{{=coin}}</div>
+	<div>{{=coin}} :: {{it.stats.minerStats[coin].payments.amount}}</div>
 	{{ } }}
 </div>
