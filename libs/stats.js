@@ -145,15 +145,85 @@ module.exports = function(logger, portalConfig, poolConfigs){
                             callback(null, confirmedRounds, pendingRounds, orphanedRounds);
                         }
                     });
-                }
+                },
 
-            ], function(err, confirmedRounds, pendingRounds, orphanedRounds) {
+                /* Does a batch redis call to get shares contributed to each round. Then calculates the reward
+                   amount owned to each miner for each round. */
+                function(confirmedRounds, pendingRounds, orphanedRounds, callback){
 
-                minerStats[coin].rounds = {
-                    confirmed:confirmedRounds,
-                    pending:pendingRounds,
-                    orphaned:orphanedRounds
-                };
+
+                    var rounds = [];
+                    for (var i = 0; i < orphanedRounds.length; i++) rounds.push(orphanedRounds[i]);
+                    for (var i = 0; i < confirmedRounds.length; i++) rounds.push(confirmedRounds[i]);
+                        for (var i = 0; i < pendingRounds.length; i++) rounds.push(pendingRounds[i]);
+
+
+                    var shareLookups = rounds.map(function(r){
+                        return ['hgetall', coin + '_shares:round' + r.height]
+                    });
+
+                    client.multi(shareLookups).exec(function(error, allWorkerShares){
+                        if (error){
+                            callback('done - redis error with multi get rounds share')
+                            return;
+                        }
+
+
+                        // Iterate through the beginning of the share results which are for the orphaned rounds
+                        var orphanMergeCommands = []
+                        for (var i = 0; i < orphanedRounds.length; i++){
+                            var workerShares = allWorkerShares[i];
+                            Object.keys(workerShares).forEach(function(worker){
+                                orphanMergeCommands.push(['hincrby', coin + '_shares:roundCurrent', worker, workerShares[worker]]);
+                            });
+                            orphanMergeCommands.push([]);
+                        }
+
+                        // Iterate through the rest of the share results which are for the worker rewards
+                        var workerRewards = {};
+                        for (var i = orphanedRounds.length; i < allWorkerShares.length; i++){
+
+                            var round = rounds[i];
+                            var workerShares = allWorkerShares[i];
+
+                            var reward = round.reward * (1 - processingConfig.feePercent);
+
+                            var totalShares = Object.keys(workerShares).reduce(function(p, c){
+                                return p + parseInt(workerShares[c])
+                            }, 0);
+
+
+                            for (var worker in workerShares){
+                                var percent = parseInt(workerShares[worker]) / totalShares;
+                                var workerRewardTotal = Math.floor(reward * percent);
+                                if (!(worker in workerRewards)) workerRewards[worker] = 0;
+                                workerRewards[worker] += workerRewardTotal;
+                            }
+                        }
+
+
+                        //this calculates profit if you wanna see it
+                        /*
+                        var workerTotalRewards = Object.keys(workerRewards).reduce(function(p, c){
+                            return p + workerRewards[c];
+                        }, 0);
+
+                        var poolTotalRewards = rounds.reduce(function(p, c){
+                            return p + c.amount * c.magnitude;
+                        }, 0);
+
+                        console.log(workerRewards);
+                        console.log('pool profit percent' + ((poolTotalRewards - workerTotalRewards) / poolTotalRewards));
+                        */
+
+                        callback(null, rounds, workerRewards, orphanMergeCommands);
+                    });
+                },
+
+            ], function(err, rounds, workerRewards) {
+
+                minerStats[coin].rounds = rounds;
+                minerStats[coin].rewards = workerRewards;
 
                 cb();
             });
