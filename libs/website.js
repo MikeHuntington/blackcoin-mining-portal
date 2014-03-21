@@ -65,7 +65,7 @@ module.exports = function(logger){
         'stats.html': 'stats',
         'api.html': 'api',
         'miner.html': 'miner',
-        'miner_stats': 'miner_stats'
+        'miner_stats.html': 'miner_stats'
     };
 
     var pageTemplates = {};
