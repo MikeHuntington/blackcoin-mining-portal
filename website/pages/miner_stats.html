@@ -4,11 +4,12 @@
     <br>
 
 
+
     {{ for(var coin in it.stats.minerStats.coins) { }}
 	<div class="panel panel-default">
 	    <div class="panel-heading"> <h4><i class="glyphicon glyphicon-question-sign"></i> {{=coin}}</h4></div>
 	    <div class="panel-body">
-	        <p class="lead">{{ 10000000.toLocaleString('en') }}</p>
+	        <p class="lead">{{=it.stats.minerStats.coins[coin].payments.amount}}</p>
 	    </div>
 	</div>
 	{{ } }}

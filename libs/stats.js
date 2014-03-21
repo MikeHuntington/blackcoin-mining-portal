@@ -312,9 +312,9 @@ module.exports = function(logger, portalConfig, poolConfigs){
             ], function(err, magnitude, payments) {
 
                 if(err)
-                    minerStats.coins[coin].payments = {magnitude:1000, amount:0};
+                    minerStats.coins[coin].payments = {amount:0};
                 else
-                    minerStats.coins[coin].payments = {magnitude:magnitude, amount:payments};
+                    minerStats.coins[coin].payments = {amount:(payments/magnitude)};
 
                 cb();
             });
