@@ -195,7 +195,6 @@ module.exports = function(logger, portalConfig, poolConfigs){
                         return ['hgetall', coin + '_shares:round' + r.height]
                     });
 
-                    console.log(shareLookups);
 
                     client.multi(shareLookups).exec(function(error, allWorkerShares){
                         if (error){
@@ -207,8 +206,6 @@ module.exports = function(logger, portalConfig, poolConfigs){
                         // Iterate through the beginning of the share results which are for the orphaned rounds
                         var orphanMergeCommands = []
                         for (var i = 0; i < orphanedRounds.length; i++){
-
-                            if(allWorkerShares[i] === null) continue;
 
                             var workerShares = allWorkerShares[i];
                             Object.keys(workerShares).forEach(function(worker){
@@ -257,6 +254,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                         console.log('pool profit percent' + ((poolTotalRewards - workerTotalRewards) / poolTotalRewards));
                         */
 
+                        callback(null, rounds, workerRewards, orphanMergeCommands);
                         
                     });
                 },
@@ -346,9 +344,6 @@ module.exports = function(logger, portalConfig, poolConfigs){
                 }
 
             ], function(err, magnitude, payments) {
-
-                console.log("________________END________________");
-                console.log(payments);
 
                 //minerStats[coin].pendingRewards = pendingRewards;
                 if(err)
