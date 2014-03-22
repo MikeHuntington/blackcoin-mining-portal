@@ -48,6 +48,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
     this.getShareStats = function(coin, cback){
 
         var client = redisClients[0].client;
+        var daemon = new Stratum.daemon.interface([_this.poolConfigs[coin].shareProcessing.internal.daemon]);
 
         async.waterfall([
 
