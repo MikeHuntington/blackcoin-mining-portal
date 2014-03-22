@@ -28,7 +28,7 @@
 	        {{ for(var coin in it.stats.minerStats.coins) { }}
 	        	{{ for(var round in it.stats.minerStats.coins[coin].rounds) { }}}
 			  <li class="list-group-item">
-			    <span class="badge">{{=round}</span>
+			    <span class="badge">{{=round}}</span>
 			  </li>
 			  {{ } }}
 			{{ } }}
