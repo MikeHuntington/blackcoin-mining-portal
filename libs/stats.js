@@ -295,10 +295,10 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                     //finalRedisCommands.push(deleteRoundsCommand);
 
-                    callback(null, magnitude, workerPayments, finalRedisCommands);
+                    callback(null, rounds, magnitude, workerPayments, finalRedisCommands);
                 },
 
-                function(magnitude, workerPayments, finalRedisCommands, callback){
+                function(rounds, magnitude, workerPayments, finalRedisCommands, callback){
 
 
                     console.log(JSON.stringify(finalRedisCommands, null, 4));
@@ -309,19 +309,21 @@ module.exports = function(logger, portalConfig, poolConfigs){
                             callback('done - error with final redis commands for cleaning up ' + JSON.stringify(error));
                             return;
                         }
-                        callback(null, magnitude, workerPayments[address]);
+                        callback(null, rounds, magnitude, workerPayments[address]);
                     });
 
 
                 }
 
-            ], function(err, magnitude, payments) {
+            ], function(err, rounds, magnitude, payments) {
 
                 if(err) {
                     minerStats.coins[coin].payments = {amount:0};
+                    minerStats.coins[coin].rounds = rounds;
                 } else {
                     var amount = _this.formatNumber(payments/magnitude);
                     minerStats.coins[coin].payments = {amount:amount};
+                    minerStats.coins[coin].rounds = rounds;
                 }
 
                 cb();
