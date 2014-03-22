@@ -88,7 +88,12 @@
                       <li><a href="#"><i class="glyphicon glyphicon-dashboard"></i> {{=JSON.stringify(it.stats.global.hashrate)}} MH/s</a></li>
                       <li><a href="#"><i class="glyphicon glyphicon-ok"></i> {{=it.stats.pools[0].poolStats.validShares}} Shares</a></li>
                     </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>NOW MINING: {{=it.stats.pools[0].coinName}}</li>
+                    </ul>
                     </nav>
+
                 </div>
                 <!-- /top nav -->
               
