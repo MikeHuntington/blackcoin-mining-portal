@@ -1,6 +1,26 @@
-{{ for(var worker in it.stats.pools[0].workers) { }}
-	{{=worker}}
-{{ } }}
+
+<div class="panel panel-default">
+	    <div class="panel-heading"> <h4><i class="glyphicon glyphicon-asterisk"></i> <span >Shares<span></h4></div>
+	    <div class="panel-body">
+	        <table class="table">
+	        	<thead>
+			        <tr>
+			          <th>Worker</th>
+			          <th>Shares</th>
+			        </tr>
+			    </thead>
+			    	<tbody>
+					  {{ for(var worker in it.stats.pools[0].workers) { }}
+				        <tr class="active">
+				          <td>{{=worker}}</td>
+				          <td>{{=worker in it.stats.pools[0].workers[worker]}}</td>
+				        </tr>
+					{{ } }}
+				</tbody>
+			</table>
+	    </div>
+	</div>
+
 
 <!-- Debug -->
 <div class="debug" style="display:none;">
