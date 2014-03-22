@@ -106,6 +106,10 @@ hr {
     color: #BAA322;
 }
 
+.navbar-right {
+  padding-right: 30px;
+}
+
 #main {
    background-color:#e9eaed;
    padding-left:0;
