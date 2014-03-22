@@ -19,14 +19,14 @@
     "website": {
         "enabled": true,
         "siteTitle": "BlackCoin Pool",
-        "port": 8080,
+        "port": 80,
         "statUpdateInterval": 3,
         "hashrateWindow": 600
     },
     "proxy": {
         "enabled": false,
         "ports": {
-            "80": {
+            "8800": {
                 "diff": 32,
                 "varDiff": {
                     "minDiff"         : 8,
