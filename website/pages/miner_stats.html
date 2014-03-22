@@ -48,7 +48,13 @@
 				          		<span class="label label-warning">Pending</span>
 				          	{{?}}
 				          </td>
-				          <td class="blockAmount">{{=it.stats.minerStats.coins[coin].rounds[round].amount}}</td>
+				          <td class="blockAmount">
+				          	{{? it.stats.minerStats.coins[coin].rounds[round].amount === 0}}
+				          		{{=it.stats.minerStats.coins[coin].rounds[round].reward}}
+				          	{{??}}
+				          		{{=it.stats.minerStats.coins[coin].rounds[round].amount}}
+				          	{{?}}
+				          </td>
 				          <td class="blockShares">{{=it.stats.minerStats.coins[coin].rounds[round].totalShares}}</td>
 				        </tr>
 
