@@ -59,7 +59,7 @@ if (cluster.isWorker){
 
     return;
 } else {
-    var coinNames = ['dogecoin','lottocoin'];
+    var coinNames = ['lottocoin','dogecoin'];
     var curIndex = 0;
     setInterval(function () {
         var newCoinName = coinNames[++curIndex % coinNames.length];
