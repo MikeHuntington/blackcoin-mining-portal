@@ -13,7 +13,7 @@
 					  {{ for(var worker in it.stats.pools[0].workers) { }}
 				        <tr class="active">
 				          <td>{{=worker}}</td>
-				          <td>{{=worker in it.stats.pools[0].workers[worker]}}</td>
+				          <td>{{=it.stats.pools[0].workers[worker]}}</td>
 				        </tr>
 					{{ } }}
 				</tbody>
