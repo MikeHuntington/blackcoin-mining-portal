@@ -19,7 +19,7 @@
     "website": {
         "enabled": true,
         "siteTitle": "BlackCoin Pool",
-        "port": 80,
+        "port": 8080,
         "statUpdateInterval": 3,
         "hashrateWindow": 600
     },
