@@ -1,5 +1,6 @@
-
-
+{{ for(var worker in it.stats.pools[0].workers) { }}
+	{{=worker}}
+{{ } }}
 
 <!-- Debug -->
 <div class="debug" style="display:none;">
