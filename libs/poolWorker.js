@@ -37,7 +37,7 @@ module.exports = function(logger){
                             cback(typeof(portalConfig.proxy.ports[miner.client.socket.localPort]) !== 'undefined')
                         }, 
                         function (clients) {
-                            console.log("______________________________rlinquishMiners__f1_________________");
+                            console.log("______________________________rlinquishMiners__f2_________________");
                             newCoinPool.attachMiners(clients);
                             proxyStuff.curActivePool = message.coin.toLowerCase();
                         }
