@@ -65,7 +65,8 @@ module.exports = function(logger){
         'stats.html': 'stats',
         'api.html': 'api',
         'miner.html': 'miner',
-        'miner_stats.html': 'miner_stats'
+        'miner_stats.html': 'miner_stats',
+        'user_shares.html': 'user_shares'
     };
 
     var pageTemplates = {};
@@ -184,9 +185,25 @@ module.exports = function(logger){
             next();
     };
 
+    var usershares = function(req, res, next){
+        var coin = req.params.coin || null;
+
+        if (coin != null){
+            portalStats.getShareStats(coin, function(){
+                processTemplates();
+
+                res.end(indexesProcessed['user_shares']);
+
+            });
+        }
+        else
+            next();
+    };
+
 
     var liveStatConnections = {};
 
+    app.get('/stats/shares/:coin', usershares);
     app.get('/miner/:address', minerpage);
     app.get('/:page', route);
     app.get('/', route);
