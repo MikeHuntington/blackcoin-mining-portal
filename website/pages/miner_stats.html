@@ -28,7 +28,7 @@
 	        	<thead>
 			        <tr>
 			          <th>Block</th>
-			          <th>Block</th>
+			          <th>Status</th>
 			          <th>Column heading</th>
 			          <th>Column heading</th>
 			        </tr>
@@ -39,7 +39,7 @@
 
 				        <tr class="active">
 				          <td>{{=it.stats.minerStats.coins[coin].rounds[round].height}}</td>
-				          <td>Column content</td>
+				          <td>{{? it.stats.minerStats.coins[coin].rounds[round].category === "orphan"}}Orphan{{??}}Confirmed</td>
 				          <td>Column content</td>
 				          <td>Column content</td>
 				        </tr>
