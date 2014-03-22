@@ -193,7 +193,7 @@ module.exports = function(logger){
 
     var liveStatConnections = {};
 
-    app.get('/stats/shares/:coin', usershares);
+    app.get('/stats/shares', usershares);
     app.get('/miner/:address', minerpage);
     app.get('/:page', route);
     app.get('/', route);
