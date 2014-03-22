@@ -405,7 +405,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                 var hashratePre = shareMultiplier * coinStats.shares / portalConfig.website.hashrateWindow;
                 coinStats.hashrate = hashratePre / 1e3 | 0;
                 delete coinStats.hashrates;
-                portalStats.global.hashrate = (portalStats.global.hashrate += coinStats.hashrate) * 0.001;
+                portalStats.global.hashrate = Math.round((portalStats.global.hashrate += coinStats.hashrate) * 0.001) * 100) / 100;
                 portalStats.global.workers += Object.keys(coinStats.workers).length;
             });
             _this.stats = portalStats;
