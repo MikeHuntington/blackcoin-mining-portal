@@ -41,7 +41,7 @@
 				          <td>{{=it.stats.minerStats.coins[coin].rounds[round].height}}</td>
 				          <td>{{? it.stats.minerStats.coins[coin].rounds[round].category === 'orphan'}}<span class="label label-warning">Orphan</span>{{??}}<span class="label label-success">Confirmed</span>{{?}}</td>
 				          <td class="blockAmount">{{=it.stats.minerStats.coins[coin].rounds[round].amount}}</td>
-				          <td>{{=it.stats.minerStats.coins[coin].rounds[round].totalShares}}</td>
+				          <td class="blockShares">{{=it.stats.minerStats.coins[coin].rounds[round].totalShares}}</td>
 				        </tr>
 
 					  {{ } }}
@@ -70,6 +70,12 @@
 
 $(document).ready(function(){
 	$.each($('.blockAmount'), function(i, v){
+		if($(v).html() === "undefined") {
+			$(v).html(' --- ');
+		}
+	});
+
+	$.each($('.blockShares'), function(i, v){
 		if($(v).html() === "undefined") {
 			$(v).html(' --- ');
 		}
