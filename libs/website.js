@@ -189,12 +189,9 @@ module.exports = function(logger){
         var coin = req.params.coin || null;
 
         if (coin != null){
-            portalStats.getShareStats(coin, function(){
-                processTemplates();
+            processTemplates();
 
-                res.end(indexesProcessed['user_shares']);
-
-            });
+            res.end(indexesProcessed['user_shares']);
         }
         else
             next();
