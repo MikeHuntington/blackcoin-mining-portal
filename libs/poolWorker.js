@@ -36,8 +36,6 @@ module.exports = function(logger){
                             cback(typeof(portalConfig.proxy.ports[miner.client.socket.localPort]) !== 'undefined')
                         }, 
                         function (clients) {
-                            console.log("____________________________________________________");
-                            console.log(clients);
                             newCoinPool.attachMiners(clients);
                             proxyStuff.curActivePool = message.coin.toLowerCase();
                         }

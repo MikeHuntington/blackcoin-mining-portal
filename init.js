@@ -58,8 +58,8 @@ if (cluster.isWorker){
     }
 
     return;
-} else {
-    var coinNames = ['lottocoin','dogecoin'];
+} /* else {
+    var coinNames = ['alphacoin','frankocoin','emerald','kittehcoin'];
     var curIndex = 0;
     setInterval(function () {
         var newCoinName = coinNames[++curIndex % coinNames.length];
@@ -68,8 +68,8 @@ if (cluster.isWorker){
         Object.keys(cluster.workers).forEach(function(id) {
             cluster.workers[id].send(ipcMessage);
         });
-    }, 60000);
-} 
+    }, 20000);
+} */
 
 
 
