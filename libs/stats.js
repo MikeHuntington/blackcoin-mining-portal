@@ -115,6 +115,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                         var orphanedRounds = [];
                         var confirmedRounds = [];
+                        var immatureRounds = [];
                         //Rounds that are not confirmed yet are removed from the round array
                         //We also get reward amount for each block from daemon reply
                         rounds.forEach(function(r){
@@ -138,26 +139,32 @@ module.exports = function(logger, portalConfig, poolConfigs){
                                 r.magnitude = r.reward / r.amount;
                                 confirmedRounds.push(r);
                             }
+                            else if (r.category === 'immature'){
+                                r.amount = tx.result.amount;
+                                r.magnitude = r.reward / r.amount;
+                                immatureRounds.push(r);
+                            }
 
                         });
 
-                        if (orphanedRounds.length === 0 && confirmedRounds.length === 0){
+                        if (orphanedRounds.length === 0 && confirmedRounds.length === 0 && immatureRounds == 0){
                             callback('done - no confirmed, pending or orhpaned rounds', 0, 0);
                         }
                         else{
-                            callback(null, confirmedRounds, orphanedRounds);
+                            callback(null, confirmedRounds, orphanedRounds, immatureRounds);
                         }
                     });
                 },
 
                 /* Does a batch redis call to get shares contributed to each round. Then calculates the reward
                    amount owned to each miner for each round. */
-                function(confirmedRounds, orphanedRounds, callback){
+                function(confirmedRounds, orphanedRounds, immatureRounds, callback){
 
 
                     var rounds = [];
                     for (var i = 0; i < orphanedRounds.length; i++) rounds.push(orphanedRounds[i]);
                     for (var i = 0; i < confirmedRounds.length; i++) rounds.push(confirmedRounds[i]);
+                    for (var i = 0; i < immatureRounds.length; i++) rounds.push(immatureRounds[i]);
 
                     var shares = [];
 
