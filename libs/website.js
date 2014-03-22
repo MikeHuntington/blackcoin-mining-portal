@@ -186,18 +186,8 @@ module.exports = function(logger){
     };
 
     var usershares = function(req, res, next){
-        var coin = req.params.coin || null;
-
-        if (coin != null){
-            portalStats.getShareStats(coin, function(){
-                processTemplates();
-
-                res.end(indexesProcessed['user_shares']);
-
-            });
-        }
-        else
-            next();
+        processTemplates();
+        res.end(indexesProcessed['user_shares']);
     };
 
 
