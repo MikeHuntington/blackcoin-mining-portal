@@ -22,7 +22,7 @@
 	<hr>
 
 	<div class="panel panel-default">
-	    <div class="panel-heading"> <h4><i class="glyphicon glyphicon-asterisk"></i> <span >Completed Rounds (Pending Payout)<span></h4></div>
+	    <div class="panel-heading"> <h4><i class="glyphicon glyphicon-asterisk"></i> <span >Blocks (Pending Payout)<span></h4></div>
 	    <div class="panel-body">
 	        <table class="table">
 	        	<thead>
@@ -45,7 +45,7 @@
 				          	{{?? it.stats.minerStats.coins[coin].rounds[round].category === 'generate'}}
 				          		<span class="label label-success">Confirmed</span>
 				          	{{??}}
-				          		<span class="label label-warning">Pending</span>
+				          		<span class="label label-default">Pending</span>
 				          	{{?}}
 				          </td>
 				          <td class="blockAmount">
