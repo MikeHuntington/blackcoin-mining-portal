@@ -32,12 +32,12 @@ module.exports = function(logger){
                     var oldPool = pools[proxyStuff.curActivePool];
                     oldPool.relinquishMiners(
                         function (miner, cback) { 
-                            console.log("____________________________________________________");
-                            console.log(portalConfig.proxy.ports[miner.client.socket.localPort]);
                             // relinquish miners that are attached to one of the "Auto-switch" ports and leave the others there.
                             cback(typeof(portalConfig.proxy.ports[miner.client.socket.localPort]) !== 'undefined')
                         }, 
                         function (clients) {
+                            console.log("____________________________________________________");
+                            console.log(clients);
                             newCoinPool.attachMiners(clients);
                             proxyStuff.curActivePool = message.coin.toLowerCase();
                         }
