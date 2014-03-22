@@ -39,7 +39,7 @@
 
 				        <tr class="active">
 				          <td>{{=it.stats.minerStats.coins[coin].rounds[round].height}}</td>
-				          <td>{{? it.stats.minerStats.coins[coin].rounds[round].category === 'orphan'}}<span class="label label-warning">Orphan</span>{{??}}<span class="label label-success">Confirmed</span>{{?}}</td>
+				          <td>{{? it.stats.minerStats.coins[coin].rounds[round].category === 'orphan'}}<span class="label label-warning">Orphan</span>{{?? t.stats.minerStats.coins[coin].rounds[round].category === 'generate'}}<span class="label label-success">Confirmed</span>{{??}}<span class="label label-warning">Pending</span>{{?}}</td>
 				          <td class="blockAmount">{{=it.stats.minerStats.coins[coin].rounds[round].amount}}</td>
 				          <td class="blockShares">{{=it.stats.minerStats.coins[coin].rounds[round].totalShares}}</td>
 				        </tr>
