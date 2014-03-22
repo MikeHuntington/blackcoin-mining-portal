@@ -186,21 +186,15 @@ module.exports = function(logger){
     };
 
     var usershares = function(req, res, next){
-        var coin = req.params.coin || null;
+        processTemplates();
 
-        if (coin != null){
-            processTemplates();
-
-            res.end(indexesProcessed['user_shares']);
-        }
-        else
-            next();
+        res.end(indexesProcessed['user_shares']);
     };
 
 
     var liveStatConnections = {};
 
-    app.get('/stats/shares/:coin', usershares);
+    app.get('/stats/shares', usershares);
     app.get('/miner/:address', minerpage);
     app.get('/:page', route);
     app.get('/', route);
