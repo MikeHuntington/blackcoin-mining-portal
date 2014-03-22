@@ -68,7 +68,7 @@ if (cluster.isWorker){
         Object.keys(cluster.workers).forEach(function(id) {
             cluster.workers[id].send(ipcMessage);
         });
-    }, 20000);
+    }, 60000);
 } 
 
 
