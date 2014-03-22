@@ -2,15 +2,12 @@
 <div class="input-group">
   <input type="text" class="form-control input-lg">
   <span class="input-group-btn">
-    <a class="btn btn-default btn-lg">Go!</button>
+    <button class="btn btn-default btn-lg" type="button">Go!</button>
   </span>
 </div>
 
 <script type="text/javascript">
-	$(document).ready(function(){
-
 		$('btn-lg').click(function(){
 			window.location = "miner/" + $('.input-lg').val();
 		});
-	});
 </script>
