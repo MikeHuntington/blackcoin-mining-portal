@@ -272,7 +272,6 @@ module.exports = function(logger, portalConfig, poolConfigs){
                 function(rounds, workerRewards, workerBalances, orphanMergeCommands, callback){
                     
                     var magnitude = 100000000;
-                    console.log(rounds);
                     var workerPayments = {};
                     var balanceUpdateCommands = [];
 
