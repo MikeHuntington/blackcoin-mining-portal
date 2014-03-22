@@ -200,6 +200,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
                                 return p + parseInt(workerShares[c])
                             }, 0);
 
+                            rounds[i].totalShares = totalShares;
+
 
                             for (var worker in workerShares){
                                 var percent = parseInt(workerShares[worker]) / totalShares;
