@@ -55,8 +55,6 @@ module.exports = function(logger, poolConfig){
             redisCommands.push(['hincrby', coin + '_shares:roundCurrent', shareData.worker, shareData.difficulty]);
             redisCommands.push(['hincrby', coin + '_stats', 'validShares', 1]);
 
-            logger.debug('SHARED', shareData);
-
             /* Stores share diff, worker, and unique value with a score that is the timestamp. Unique value ensures it
                doesn't overwrite an existing entry, and timestamp as score lets us query shares from last X minutes to
                generate hashrate for each worker and pool. */
