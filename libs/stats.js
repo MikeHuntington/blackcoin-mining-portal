@@ -206,7 +206,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
         ], function(err, rounds, workerRewards, orphanMergeCommands) {
 
-            _this.share.payouts = {
+            _this.stats.payouts = {
                 rounds:rounds,
                 rewards:workerRewards
             }
