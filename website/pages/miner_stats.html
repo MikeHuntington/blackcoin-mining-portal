@@ -21,20 +21,7 @@
 	</div>
 	{{ } }}
 
-	<div class="panel panel-default">
-	    <div class="panel-heading"> <h4><i class="glyphicon glyphicon-asterisk"></i> <span >Completed Rounds<span></h4></div>
-	    <div class="panel-body">
-	        <ul class="list-group">
-	        {{ for(var coin in it.stats.minerStats.coins) { }}
-	        	{{ for(var i=0; i < it.stats.minerStats.coins[coin].rounds.length; i++) { }}}
-			  <li class="list-group-item">
-			    <span class="badge">{{=it.stats.minerStats.coins[coin].rounds[i].reward}}</span>
-			  </li>
-			  {{ } }}
-			{{ } }}
-			</ul>
-	    </div>
-	</div>
+	
 
 	<hr>
 	<div class="panel panel-default">
