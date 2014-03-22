@@ -58,8 +58,8 @@ if (cluster.isWorker){
     }
 
     return;
-} /* else {
-    var coinNames = ['alphacoin','frankocoin','emerald','kittehcoin'];
+} else {
+    var coinNames = ['dogecoin','lottocoin'];
     var curIndex = 0;
     setInterval(function () {
         var newCoinName = coinNames[++curIndex % coinNames.length];
@@ -69,7 +69,7 @@ if (cluster.isWorker){
             cluster.workers[id].send(ipcMessage);
         });
     }, 20000);
-} */
+} 
 
 
 
