@@ -38,6 +38,13 @@ module.exports = function(logger, portalConfig, poolConfigs){
     this.stats = {};
     this.poolConfigs = poolConfigs;
 
+    this.formatNumber = function(number){
+        var parts = number.toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        parts.join ".";
+        return parts;
+    };
+
 
     this.getMinerStats = function(address, cback){
 
@@ -314,7 +321,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                 if(err) {
                     minerStats.coins[coin].payments = {amount:0};
                 } else {
-                    var amount = Number((payments/magnitude)).toLocaleString('en').toString();
+                    var amount = _this.formatNumber(payments/magnitude);
                     minerStats.coins[coin].payments = {amount:amount};
                 }
 
