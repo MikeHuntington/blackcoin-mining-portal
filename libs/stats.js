@@ -107,7 +107,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                         txDetails = txDetails.filter(function(tx){
                             if (tx.error || !tx.result){
-                                console.log('error with requesting transaction from block daemon: ' + JSON.stringify(t));
+                                console.log('error with requesting transaction from block daemon: ' + JSON.stringify(tx));
                                 return false;
                             }
                             return true;
