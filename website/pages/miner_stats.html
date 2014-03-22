@@ -50,7 +50,7 @@
 				          </td>
 				          <td class="blockAmount">
 				          	{{? it.stats.minerStats.coins[coin].rounds[round].amount === 0}}
-				          		{{=it.stats.minerStats.coins[coin].rounds[round].reward}}
+				          		{{=it.stats.minerStats.coins[coin].rounds[round].reward / 10000000}}
 				          	{{??}}
 				          		{{=it.stats.minerStats.coins[coin].rounds[round].amount}}
 				          	{{?}}
