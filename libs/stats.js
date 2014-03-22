@@ -47,9 +47,9 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
     this.getShareStats = function(coin, cback){
 
+        var client = redisClients[0].client;
+        
         async.waterfall([
-
-            var client = redisClients[0].client;
 
             /* Call redis to get an array of rounds - which are coinbase transactions and block heights from submitted
                blocks. */
