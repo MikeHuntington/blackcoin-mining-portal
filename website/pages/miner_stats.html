@@ -28,7 +28,7 @@
 	        	<thead>
 			        <tr>
 			          <th>#</th>
-			          <th>Column heading</th>
+			          <th>Block</th>
 			          <th>Column heading</th>
 			          <th>Column heading</th>
 			        </tr>
@@ -38,12 +38,12 @@
 			        	{{ for(var round in it.stats.minerStats.coins[coin].rounds) { }}
 
 				        <tr class="active">
-				          <td>1</td>
+				          <td>{{=round.height}}</td>
 				          <td>Column content</td>
 				          <td>Column content</td>
 				          <td>Column content</td>
 				        </tr>
-				        
+
 					  {{ } }}
 					{{ } }}
 				</tbody>
