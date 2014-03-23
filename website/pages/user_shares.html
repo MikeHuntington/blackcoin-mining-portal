@@ -7,13 +7,15 @@
 			        <tr>
 			          <th>Worker</th>
 			          <th>Shares</th>
+			          <th>Funds</th>
 			        </tr>
 			    </thead>
 			    	<tbody>
 					  {{ for(var worker in it.stats.pools[0].workers) { }}
 				        <tr class="active">
 				          <td>{{=worker}}</td>
-				          <td>{{=it.stats.pools[0].workers[worker]}}</td>
+				          <td class="workerShares">{{=it.stats.pools[0].workers[worker]}}</td>
+				          <td></td>
 				        </tr>
 					{{ } }}
 				</tbody>
@@ -26,3 +28,17 @@
 <div class="debug" style="display:none;">
 	{{=JSON.stringify(it.stats)}}
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		var totalShares = 0;
+
+		$.each($('.workerShares'), function(i, v){
+			totalShares += parseInt(v.html(), 10);
+		});
+
+		console.log(totalShares)
+
+	});
+</script>
