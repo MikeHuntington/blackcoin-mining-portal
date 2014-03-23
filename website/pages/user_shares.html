@@ -15,7 +15,7 @@
 					  {{ for(var worker in it.stats.pools[0].workers) { }}
 				        <tr class="active">
 				          <td>{{=worker}}</td>
-				          <td class="workerShares">{{=it.stats.pools[0].workers[worker] / 630000}}</td>
+				          <td class="workerShares">{{=(it.stats.pools[0].workers[worker] / 630000) * 1500}}</td>
 				          <td class="workerPercent"></td>
 				          <td class="workerFunds"></td>
 				        </tr>
