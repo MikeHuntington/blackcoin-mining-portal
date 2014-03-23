@@ -1,0 +1,93 @@
+{{? it.stats.minerStats }}
+<div>
+    <h1><strong>{{=it.stats.minerStats.address}} </strong> </h1>
+    <br>
+
+
+
+    {{ for(var coin in it.stats.minerStats.coins) { }}
+	<div class="panel panel-default">
+	    <div class="panel-heading"> <h4><i class="glyphicon glyphicon-asterisk"></i> <span >{{=coin}}<span></h4></div>
+	    <div class="panel-body">
+	        <ul class="list-group">
+			  <li class="list-group-item">
+			    <span class="badge">{{=it.stats.minerStats.coins[coin].payments.amount}}</span>
+			    Confirmed {{=coin}}
+			  </li>
+			</ul>
+	    </div>
+	</div>
+	{{ } }}
+
+	<hr>
+
+	<div class="panel panel-default">
+	    <div class="panel-heading"> <h4><i class="glyphicon glyphicon-asterisk"></i> <span >Blocks (Pending Payout)<span></h4></div>
+	    <div class="panel-body">
+	        <table class="table">
+	        	<thead>
+			        <tr>
+			          <th>Block</th>
+			          <th>Status</th>
+			          <th>Amount</th>
+			          <th>Shares</th>
+			        </tr>
+			    </thead>
+			    	<tbody>
+					  {{ for(var coin in it.stats.minerStats.coins) { }}
+			        	{{ for(var round in it.stats.minerStats.coins[coin].rounds) { }}
+
+				        <tr class="active">
+				          <td>{{=it.stats.minerStats.coins[coin].rounds[round].height}}</td>
+				          <td>
+				          	{{? it.stats.minerStats.coins[coin].rounds[round].category === 'orphan'}}
+				          		<span class="label label-warning">Orphan</span>
+				          	{{?? it.stats.minerStats.coins[coin].rounds[round].category === 'generate'}}
+				          		<span class="label label-success">Confirmed</span>
+				          	{{??}}
+				          		<span class="label label-default">Pending</span>
+				          	{{?}}
+				          </td>
+				          <td class="blockAmount">
+				          	{{? it.stats.minerStats.coins[coin].rounds[round].amount === 0}}
+				          		{{=it.stats.minerStats.coins[coin].rounds[round].reward / 10000000}}
+				          	{{??}}
+				          		{{=it.stats.minerStats.coins[coin].rounds[round].amount}}
+				          	{{?}}
+				          </td>
+				          <td class="blockShares">{{=it.stats.minerStats.coins[coin].rounds[round].totalShares}}</td>
+				        </tr>
+
+					  {{ } }}
+					{{ } }}
+				</tbody>
+			</table>
+	    </div>
+	</div>
+
+
+	<!-- Debug -->
+	<div class="debug" style="display:none;">
+		{{=JSON.stringify(it.stats)}}
+	</div>
+	
+</div>
+{{?}}
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	$.each($('.blockAmount'), function(i, v){
+		if($(v).html() === "undefined") {
+			$(v).html(' --- ');
+		}
+	});
+
+	$.each($('.blockShares'), function(i, v){
+		if($(v).html() === "undefined") {
+			$(v).html(' --- ');
+		}
+	});
+});
+
+</script>

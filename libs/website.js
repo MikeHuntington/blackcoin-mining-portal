@@ -63,19 +63,32 @@ module.exports = function(logger){
         'home.html': '',
         'getting_started.html': 'getting_started',
         'stats.html': 'stats',
-        'api.html': 'api'
+        'api.html': 'api',
+        'miner.html': 'miner',
+        'miner_stats.html': 'miner_stats',
+        'user_shares.html': 'user_shares'
     };
 
     var pageTemplates = {};
 
     var pageProcessed = {};
+    var indexesProcessed = {};
 
 
     var processTemplates = function(){
+
         for (var pageName in pageTemplates){
+            if (pageName === 'index') continue;
             pageProcessed[pageName] = pageTemplates[pageName]({
                 poolsConfigs: poolConfigs,
                 stats: portalStats.stats,
+                portalConfig: portalConfig
+            });
+            indexesProcessed[pageName] = pageTemplates.index({
+                page: pageProcessed[pageName],
+                selected: pageName,
+                stats: portalStats.stats,
+                poolConfigs: poolConfigs,
                 portalConfig: portalConfig
             });
         }
@@ -138,7 +151,7 @@ module.exports = function(logger){
 
     var route = function(req, res, next){
         var pageId = req.params.page || '';
-        var requestedPage = getPage(pageId);
+        /*var requestedPage = getPage(pageId);
         if (requestedPage){
             var data = pageTemplates.index({
                 page: requestedPage,
@@ -148,16 +161,40 @@ module.exports = function(logger){
                 portalConfig: portalConfig
             });
             res.end(data);
+        }*/
+        if (pageId in indexesProcessed){
+            res.end(indexesProcessed[pageId]);
         }
         else
             next();
 
     };
 
+    var minerpage = function(req, res, next){
+        var address = req.params.address || null;
+
+        if (address != null){
+            portalStats.getMinerStats(address, function(){
+                processTemplates();
+
+                res.end(indexesProcessed['miner_stats']);
+
+            });
+        }
+        else
+            next();
+    };
+
+    var usershares = function(req, res, next){
+        processTemplates();
+        res.end(indexesProcessed['user_shares']);
+    };
+
 
     var liveStatConnections = {};
 
-
+    app.get('/stats/shares', usershares);
+    app.get('/miner/:address', minerpage);
     app.get('/:page', route);
     app.get('/', route);
 

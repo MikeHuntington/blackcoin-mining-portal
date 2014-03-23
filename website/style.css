@@ -1,9 +1,4 @@
 /* custom template */
-html {
-    position: relative;
-  min-height: 100%;
-}
-
 html, body {
    height: 100%;
    font-family:'Open Sans',sans-serif;
@@ -95,7 +90,7 @@ hr {
 
 .navbar-blue li>a:hover, .navbar-blue li>a:focus, .navbar-blue .open, .navbar-blue .open>a, .navbar-blue .open>a:hover, .navbar-blue .open>a:focus {
    background-color:#EBCE2A;
-   color:#000;
+   color:#fff;
 }
 
 .navbar-brand {
@@ -104,10 +99,6 @@ hr {
 
 .navbar-brand:hover {
     color: #BAA322;
-}
-
-.navbar-right {
-  padding-right: 30px;
 }
 
 #main {
@@ -133,7 +124,7 @@ hr {
     text-shadow:0 0 2px #000000;
     padding-left:5px;
 }
-#sidebar .nav li>a:hover, #sidebar .nav li.selected {
+#sidebar .nav li>a:hover, #sidebar .nav li.active {
     background-color:#393939;
 }
 
@@ -302,48 +293,4 @@ small.text-muted {
   #sidebar, #sidebar a, #sidebar-footer a {
     padding-left:3px;
   }
-}
-
-#footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  background-color: #f5f5f5;
-}
-
-
-/* Side notes for calling out things
--------------------------------------------------- */
- 
-/* Base styles (regardless of theme) */
-.bs-callout {
-  margin: 20px 0;
-  padding: 15px 30px 15px 15px;
-  border-left: 5px solid #eee;
-}
-.bs-callout h4 {
-  margin-top: 0;
-}
-.bs-callout p:last-child {
-  margin-bottom: 0;
-}
-.bs-callout code,
-.bs-callout .highlight {
-  background-color: #fff;
-}
- 
-/* Themes for different contexts */
-.bs-callout-danger {
-  background-color: #fcf2f2;
-  border-color: #dFb5b4;
-}
-.bs-callout-warning {
-  background-color: #fefbed;
-  border-color: #f1e7bc;
-}
-.bs-callout-info {
-  background-color: #f0f7fd;
-  border-color: #d0e3f0;
 }

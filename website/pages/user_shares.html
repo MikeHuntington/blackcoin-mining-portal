@@ -1,0 +1,52 @@
+
+<div class="panel panel-default">
+	    <div class="panel-heading"> <h4><i class="glyphicon glyphicon-asterisk"></i> <span >Shares<span></h4></div>
+	    <div class="panel-body">
+	        <table class="table">
+	        	<thead>
+			        <tr>
+			          <th>Worker</th>
+			          <th>Shares</th>
+			          <th>Percent</th>
+			          <th>Funds</th>
+			        </tr>
+			    </thead>
+			    	<tbody>
+					  {{ for(var worker in it.stats.pools[0].workers) { }}
+				        <tr class="active">
+				          <td>{{=worker}}</td>
+				          <td class="workerShares">{{=(it.stats.pools[0].workers[worker] / 630000) * 1500}}</td>
+				          <td class="workerPercent"></td>
+				          <td class="workerFunds"></td>
+				        </tr>
+					{{ } }}
+				</tbody>
+			</table>
+	    </div>
+	</div>
+
+
+<!-- Debug -->
+<div class="debug" style="display:none;">
+	{{=JSON.stringify(it.stats)}}
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		var totalShares = 0;
+
+		$.each($('.workerShares'), function(i, v){
+			totalShares += parseInt($(v).html());
+		});
+
+		console.log(totalShares);
+
+		// Taking out my share
+		//totalShares = (totalShares - 49616);
+		//totalShares = (totalShares - 11200);
+
+
+
+	});
+</script>

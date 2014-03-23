@@ -18,15 +18,15 @@
     },
     "website": {
         "enabled": true,
-        "siteTitle": "Cryppit",
+        "siteTitle": "BlackCoin Pool",
         "port": 8080,
-        "statUpdateInterval": 5,
+        "statUpdateInterval": 3,
         "hashrateWindow": 600
     },
     "proxy": {
-        "enabled": false,
+        "enabled": true,
         "ports": {
-            "80": {
+            "4444": {
                 "diff": 32,
                 "varDiff": {
                     "minDiff"         : 8,
@@ -36,7 +36,7 @@
                     "variancePercent" : 30
                 }
             },
-            "6000": {
+            "4443": {
                 "diff": 32,
                 "varDiff": {
                     "minDiff"         : 8,
@@ -46,7 +46,7 @@
                     "variancePercent" : 30
                 }
             },
-            "8080": {
+            "4442": {
                 "diff": 32,
                 "varDiff": {
                     "minDiff"         : 8,

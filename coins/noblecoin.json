@@ -1,0 +1,7 @@
+{
+    "name"       : "Noblecoin",
+    "symbol"     : "NOBL",
+    "algorithm"  : "scrypt",
+    "reward"     : "POW",
+    "txMessages" : false
+}

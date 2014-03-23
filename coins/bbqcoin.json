@@ -1,0 +1,7 @@
+{
+    "name"       : "BBQCoin",
+    "symbol"     : "BBQ",
+    "algorithm"  : "scrypt",
+    "reward"     : "POW",
+    "txMessages" : false
+}

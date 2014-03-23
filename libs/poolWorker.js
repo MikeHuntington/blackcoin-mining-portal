@@ -2,6 +2,8 @@ var Stratum = require('stratum-pool');
 var Vardiff = require('stratum-pool/lib/varDiff.js');
 var net     = require('net');
 
+
+
 var MposCompatibility = require('./mposCompatibility.js');
 var ShareProcessor = require('./shareProcessor.js');
 
@@ -94,10 +96,17 @@ module.exports = function(logger){
             var shareProcessor = new ShareProcessor(poolLogger, poolOptions)
 
             handlers.auth = function(workerName, password, authCallback){
-                pool.daemon.cmd('validateaddress', [workerName], function(results){
-                    var isValid = results.filter(function(r){return r.response.isvalid}).length > 0;
-                    authCallback(isValid);
-                });
+
+                if(shareProcessing.internal.validateWorkerAddress) {
+                    pool.daemon.cmd('validateaddress', [workerName], function(results){
+                        var isValid = results.filter(function(r){return r.response.isvalid}).length > 0;
+                        authCallback(isValid);
+                    });
+                }
+                else {
+                    authCallback(true);
+                }
+                
             };
 
             handlers.share = function(isValidShare, isValidBlock, data){
@@ -170,16 +179,12 @@ module.exports = function(logger){
         });
 
         Object.keys(portalConfig.proxy.ports).forEach(function (port) {
-
-            proxyStuff.proxys[port] = net 
-                                        .createServer({allowHalfOpen: true}, function(socket) { 
-                                            console.log(proxyStuff.curActivePool);
-                                            pools[proxyStuff.curActivePool].getStratumServer().handleNewClient(socket);
-                                        } )
-                                        .listen(parseInt(port), function(){
-                                            console.log("Proxy listening on "+port);
-                                        });    
-
+            proxyStuff.proxys[port] = net .createServer({allowHalfOpen: true}, function(socket) {
+                console.log(proxyStuff.curActivePool);
+                pools[proxyStuff.curActivePool].getStratumServer().handleNewClient(socket);
+            }).listen(parseInt(port), function(){
+                console.log("Proxy listening on " + port);
+            });
         });
 
 
