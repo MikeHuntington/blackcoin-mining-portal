@@ -7,6 +7,7 @@
 			        <tr>
 			          <th>Worker</th>
 			          <th>Shares</th>
+			          <th>Percent</th>
 			          <th>Funds</th>
 			        </tr>
 			    </thead>
@@ -15,7 +16,8 @@
 				        <tr class="active">
 				          <td>{{=worker}}</td>
 				          <td class="workerShares">{{=it.stats.pools[0].workers[worker]}}</td>
-				          <td></td>
+				          <td class="workerPercent"></td>
+				          <td class="workerFunds"></td>
 				        </tr>
 					{{ } }}
 				</tbody>
@@ -37,6 +39,17 @@
 		$.each($('.workerShares'), function(i, v){
 			totalShares += parseInt($(v).html(), 10);
 		});
+
+		// Taking out my share
+		totalShares = totalShares - 49616;
+		totalShares = totalShares - 11200
+
+		// get percentage
+		$.each($('.workerShares'), function(i, v){
+			var percentage = parseInt($(v).html(), 10) / totalShares;
+			$($('.workerPercent')[i]).html(percentage);
+		});
+
 
 		console.log(totalShares)
 
