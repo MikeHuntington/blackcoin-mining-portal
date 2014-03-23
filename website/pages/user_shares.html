@@ -35,7 +35,7 @@
 		var totalShares = 0;
 
 		$.each($('.workerShares'), function(i, v){
-			totalShares += parseInt(v.html(), 10);
+			totalShares += parseInt($(v).html(), 10);
 		});
 
 		console.log(totalShares)
