@@ -37,7 +37,7 @@
 		var totalShares = 0;
 
 		$.each($('.workerShares'), function(i, v){
-			totalShares += parseInt($(v).html(), 10);
+			totalShares += parseInt($(v).html());
 		});
 
 		// Taking out my share
@@ -46,8 +46,10 @@
 
 		// get percentage
 		$.each($('.workerShares'), function(i, v){
-			var percentage = parseInt($(v).html(), 10) / totalShares;
-			$($('.workerPercent')[i]).html(percentage);
+
+			var percentage = parseInt($(v).html()) / totalShares;
+
+			//$($('.workerPercent')[i]).html(percentage);
 		});
 
 
