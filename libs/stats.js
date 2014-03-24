@@ -36,6 +36,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
 
     this.stats = {};
+    this.statsString = '';
+
     this.poolConfigs = poolConfigs;
 
     this.formatNumber = function(number){
@@ -346,21 +348,31 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
     this.getStats = function(callback){
 
-        var allCoinStats = [];
+        var allCoinStats = {};
 
         async.each(redisClients, function(client, callback){
             var windowTime = (((Date.now() / 1000) - portalConfig.website.hashrateWindow) | 0).toString();
             var redisCommands = [];
-            var commandsPerCoin = 4;
 
-            //Clear out old hashrate stats for each coin from redis
-            client.coins.forEach(function(coin){
-                redisCommands.push(['zremrangebyscore', coin + '_hashrate', '-inf', '(' + windowTime]);
-                redisCommands.push(['zrangebyscore', coin + '_hashrate', windowTime, '+inf']);
-                redisCommands.push(['hgetall', coin + '_stats']);
-                redisCommands.push(['scard', coin + '_blocksPending']);
+
+            var redisComamndTemplates = [
+                ['zremrangebyscore', '_hashrate', '-inf', '(' + windowTime],
+                ['zrangebyscore', '_hashrate', windowTime, '+inf'],
+                ['hgetall', '_stats'],
+                ['scard', '_blocksPending'],
+                ['scard', '_blocksConfirmed'],
+                ['scard', '_blocksOrphaned']
+            ];
+
+            var commandsPerCoin = redisComamndTemplates.length;
+
+            client.coins.map(function(coin){
+                redisComamndTemplates.map(function(t){
+                    var clonedTemplates = t.slice(0);
+                    clonedTemplates[1] = coin + clonedTemplates [1];
+                    redisCommands.push(clonedTemplates);
+                });
             });
-
 
             client.client.multi(redisCommands).exec(function(err, replies){
                 if (err){
@@ -369,14 +381,20 @@ module.exports = function(logger, portalConfig, poolConfigs){
                 }
                 else{
                     for(var i = 0; i < replies.length; i += commandsPerCoin){
+                        var coinName = client.coins[i / commandsPerCoin | 0];
                         var coinStats = {
-                            coinName: client.coins[i / commandsPerCoin | 0],
+                            name: coinName,
+                            symbol: poolConfigs[coinName].coin.symbol,
+                            algorithm: poolConfigs[coinName].coin.algorithm,
                             hashrates: replies[i + 1],
                             poolStats: replies[i + 2],
-                            poolPendingBlocks: replies[i + 3]
+                            blocks: {
+                                pending: replies[i + 3],
+                                confirmed: replies[i + 4],
+                                orphaned: replies[i + 5]
+                            }
                         };
-                        allCoinStats.push(coinStats)
-
+                        allCoinStats[coinStats.name] = (coinStats);
                     }
                     callback();
                 }
@@ -396,7 +414,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
                 pools: allCoinStats
             };
 
-            allCoinStats.forEach(function(coinStats){
+            Object.keys(allCoinStats).forEach(function(coin){
+                var coinStats = allCoinStats[coin];
                 coinStats.workers = {};
                 coinStats.shares = 0;
                 coinStats.hashrates.forEach(function(ins){
@@ -409,14 +428,17 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     else
                         coinStats.workers[worker] = workerShares
                 });
-                var shareMultiplier = algoMultipliers[poolConfigs[coinStats.coinName].coin.algorithm];
+                var shareMultiplier = algoMultipliers[coinStats.algorithm];
                 var hashratePre = shareMultiplier * coinStats.shares / portalConfig.website.hashrateWindow;
                 coinStats.hashrate = hashratePre / 1e3 | 0;
                 delete coinStats.hashrates;
-                portalStats.global.hashrate = Math.round(((portalStats.global.hashrate += coinStats.hashrate) * 0.001) * 100) / 100;
+                delete coinStats.shares;
+                portalStats.global.hashrate += coinStats.hashrate;
                 portalStats.global.workers += Object.keys(coinStats.workers).length;
             });
+
             _this.stats = portalStats;
+            _this.statsString = JSON.stringify(portalStats);
             callback();
         });
 

@@ -3,7 +3,7 @@ var os = require('os');
 var cluster = require('cluster');
 
 
-
+var async                    = require('async');
 var posix                    = require('posix');
 var PoolLogger               = require('./libs/logUtil.js');
 var BlocknotifyListener      = require('./libs/blocknotifyListener.js');
@@ -17,19 +17,17 @@ JSON.minify = JSON.minify || require("node-json-minify");
 var portalConfig = JSON.parse(JSON.minify(fs.readFileSync("config.json", {encoding: 'utf8'})));
 
 
-var loggerInstance = new PoolLogger({
+var logger = new PoolLogger({
     logLevel: portalConfig.logLevel
 });
 
-var logDebug   = loggerInstance.logDebug;
-var logWarning = loggerInstance.logWarning;
-var logError   = loggerInstance.logError;
+
 
 
 try {
     require('newrelic');
     if (cluster.isMaster)
-        logDebug('newrelic', 'system', 'New Relic initiated');
+        logger.debug('NewRelic', 'Monitor', 'New Relic initiated');
 } catch(e) {}
 
 
@@ -38,7 +36,7 @@ try{
     posix.setrlimit('nofile', { soft: 100000, hard: 100000 });
 }
 catch(e){
-    logWarning('posix', 'system', '(Safe to ignore) Must be ran as root to increase resource limits');
+    logger.warning('POSIX', 'Connection Limit', '(Safe to ignore) Must be ran as root to increase resource limits');
 }
 
 
@@ -47,13 +45,13 @@ if (cluster.isWorker){
     
     switch(process.env.workerType){
         case 'pool':
-            new PoolWorker(loggerInstance);
+            new PoolWorker(logger);
             break;
         case 'paymentProcessor':
-            new PaymentProcessor(loggerInstance);
+            new PaymentProcessor(logger);
             break;
         case 'website':
-            new Website(loggerInstance);
+            new Website(logger);
             break;
     }
 
@@ -81,7 +79,7 @@ var buildPoolConfigs = function(){
         if (poolOptions.disabled) return;
         var coinFilePath = 'coins/' + poolOptions.coin;
         if (!fs.existsSync(coinFilePath)){
-            logError(poolOptions.coin, 'system', 'could not find file: ' + coinFilePath);
+            logger.error('Master', poolOptions.coin, 'could not find file: ' + coinFilePath);
             return;
         }
 
@@ -114,25 +112,31 @@ var spawnPoolWorkers = function(portalConfig, poolConfigs){
             workerType   : 'pool',
             forkId       : forkId,
             pools        : serializedConfigs,
-            portalConfig : JSON.stringify(portalConfig),
+            portalConfig : JSON.stringify(portalConfig)
         });
         worker.on('exit', function(code, signal){
-            logError('poolWorker', 'system', 'Fork ' + forkId + ' died, spawning replacement worker...');
+            logger.error('Master', 'PoolSpanwer', 'Fork ' + forkId + ' died, spawning replacement worker...');
             setTimeout(function(){
                 createPoolWorker(forkId);
             }, 2000);
         });
     };
 
-    for (var i = 0; i < numForks; i++) {
+    var i = 0;
+    var spawnInterval = setInterval(function(){
         createPoolWorker(i);
-    }
+        i++;
+        if (i === numForks){
+            clearInterval(spawnInterval);
+            logger.debug('Master', 'PoolSpawner', 'Spawned pools for all ' + numForks + ' configured forks');
+        }
+    }, 250);
 
 };
 
 
 var startWorkerListener = function(poolConfigs){
-    var workerListener = new WorkerListener(loggerInstance, poolConfigs);
+    var workerListener = new WorkerListener(logger, poolConfigs);
     workerListener.init();
 };
 
@@ -142,7 +146,7 @@ var startBlockListener = function(portalConfig){
     //setup block notify here and use IPC to tell appropriate pools
     var listener = new BlocknotifyListener(portalConfig.blockNotifyListener);
     listener.on('log', function(text){
-        logDebug('blocknotify', 'system', text);
+        logger.debug('Master', 'Blocknotify', text);
     });
     listener.on('hash', function(message){
 
@@ -163,7 +167,7 @@ var startRedisBlockListener = function(portalConfig){
 
     var listener = new RedisBlocknotifyListener(portalConfig.redisBlockNotifyListener);
     listener.on('log', function(text){
-        logDebug('blocknotify', 'system', text);
+        logger.debug('Master', 'blocknotify', text);
     }).on('hash', function (message) {
         var ipcMessage = {type:'blocknotify', coin: message.coin, hash: message.hash};
         Object.keys(cluster.workers).forEach(function(id) {
@@ -180,7 +184,7 @@ var startPaymentProcessor = function(poolConfigs){
         pools: JSON.stringify(poolConfigs)
     });
     worker.on('exit', function(code, signal){
-        logError('paymentProcessor', 'system', 'Payment processor died, spawning replacement...');
+        logger.error('Master', 'Payment Processor', 'Payment processor died, spawning replacement...');
         setTimeout(function(){
             startPaymentProcessor(poolConfigs);
         }, 2000);
@@ -198,7 +202,7 @@ var startWebsite = function(portalConfig, poolConfigs){
         portalConfig: JSON.stringify(portalConfig)
     });
     worker.on('exit', function(code, signal){
-        logError('website', 'system', 'Website process died, spawning replacement...');
+        logger.error('Master', 'Website', 'Website process died, spawning replacement...');
         setTimeout(function(){
             startWebsite(portalConfig, poolConfigs);
         }, 2000);

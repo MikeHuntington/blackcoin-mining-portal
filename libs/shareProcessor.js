@@ -20,6 +20,8 @@ module.exports = function(logger, poolConfig){
     var redisConfig = internalConfig.redis;
     var coin = poolConfig.coin.name;
 
+    var logSystem = 'Shares';
+
     var connection;
 
     function connect(){
@@ -29,14 +31,14 @@ module.exports = function(logger, poolConfig){
         connection = redis.createClient(redisConfig.port, redisConfig.host);
         connection.on('ready', function(){
             clearTimeout(reconnectTimeout);
-            logger.debug('redis', 'Successfully connected to redis database');
+            logger.debug(logSystem, 'redis', 'Successfully connected to redis database');
         });
         connection.on('error', function(err){
-            logger.error('redis', 'Redis client had an error: ' + JSON.stringify(err))
+            logger.error(logSystem, 'redis', 'Redis client had an error: ' + JSON.stringify(err))
         });
         connection.on('end', function(){
-            logger.error('redis', 'Connection to redis database as been ended');
-            logger.warning('redis', 'Trying reconnection in 3 seconds...');
+            logger.error(logSystem, 'redis', 'Connection to redis database as been ended');
+            logger.warning(logSystem, 'redis', 'Trying reconnection in 3 seconds...');
             reconnectTimeout = setTimeout(function(){
                 connect();
             }, 3000);
@@ -58,7 +60,8 @@ module.exports = function(logger, poolConfig){
             /* Stores share diff, worker, and unique value with a score that is the timestamp. Unique value ensures it
                doesn't overwrite an existing entry, and timestamp as score lets us query shares from last X minutes to
                generate hashrate for each worker and pool. */
-            redisCommands.push(['zadd', coin + '_hashrate', Date.now() / 1000 | 0, [shareData.difficulty, shareData.worker, Math.random()].join(':')]);
+            var dateNow = Date.now();
+            redisCommands.push(['zadd', coin + '_hashrate', dateNow / 1000 | 0, [shareData.difficulty, shareData.worker, dateNow].join(':')]);
         }
         else{
             redisCommands.push(['hincrby', coin + '_stats', 'invalidShares', 1]);
@@ -75,7 +78,9 @@ module.exports = function(logger, poolConfig){
 
         connection.multi(redisCommands).exec(function(err, replies){
             if (err)
-                logger.error('redis', 'error with share processor multi ' + JSON.stringify(err));
+                logger.error(logSystem, 'redis', 'Error with share processor multi ' + JSON.stringify(err));
+            else
+                logger.debug(logSystem, 'redis', 'Share data and stats recorded');
         });
 
 
