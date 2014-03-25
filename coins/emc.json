@@ -1,0 +1,7 @@
+{
+    "name"       : "Einsteinium",
+    "symbol"     : "EMC2",
+    "algorithm"  : "scrypt",
+    "reward"     : "POW",
+    "txMessages" : false
+}
