@@ -216,7 +216,7 @@ var startWebsite = function(portalConfig, poolConfigs){
 
     spawnPoolWorkers(portalConfig, poolConfigs);
 
-    //startPaymentProcessor(poolConfigs);
+    startPaymentProcessor(poolConfigs);
 
     startBlockListener(portalConfig);
 
