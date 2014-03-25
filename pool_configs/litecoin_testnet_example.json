@@ -10,7 +10,7 @@
             "minimumPayment": 100.001,
             "minimumReserve": 10,
             "feePercent": 0.02,
-            "feeReceiveAddress": "LZz44iyF4zLCXJTU8RxztyyJZBntdS6fvv",
+            "feeReceiveAddress": "ET9if2i3Q4zrUn919dVdwTzQ7fqU4FUT4n",
             "feeWithdrawalThreshold": 5,
             "daemon": {
                 "host": "localhost",
@@ -35,7 +35,7 @@
     },
 
 
-    "address": "mfsm1ckZKTTjDz94KonZZsbZnAbm1UV4BF",
+    "address": "ET9if2i3Q4zrUn919dVdwTzQ7fqU4FUT4n",
     "blockRefreshInterval": 1000,
     "txRefreshInterval": 20000,
     "connectionTimeout": 600,
