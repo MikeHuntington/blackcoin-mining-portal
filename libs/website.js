@@ -164,6 +164,15 @@ module.exports = function(logger){
             next();
     };
 
+    var shares = function(req, res, next){
+        portalStats.getCoins(coin, function(){
+            processTemplates();
+
+            res.end(indexesProcessed['user_shares']);
+
+        });
+    };
+
     var usershares = function(req, res, next){
 
         var coin = req.params.coin || null;
@@ -191,6 +200,7 @@ module.exports = function(logger){
     });
 
     app.get('/stats/shares/:coin', usershares);
+    app.get('/stats/shares', shares);
     app.get('/miner/:address', minerpage);
     app.get('/:page', route);
     app.get('/', route);

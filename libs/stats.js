@@ -48,15 +48,24 @@ module.exports = function(logger, portalConfig, poolConfigs){
         return parts.join(".");
     };
 
+    this.getCoins = function(cback){
+        _this.stats.coins = redisClients[0].coins;
+
+        cback();
+    };
+
     this.getCoinTotals = function(coin, cback){
-        var client = redisClients[0].client;
+        var client = redisClients[0].client,
+            balances = [];
 
         client.hgetall(coin + '_balances', function(error, results){
 
             for(var worker in results){
-                console.log(parseInt(results[worker]) / 100000000);
+                balances.push({worker:worker, balance:parseInt(results[worker]) / 100000000});
             }
         });
+
+        _this.stats.balances = balances;
 
         cback();
     };
