@@ -1,7 +1,6 @@
 {
     "name": "Skeincoin",
-    "symbol": "skc",
+    "symbol": "SKC",
     "algorithm": "skein",
-    "reward": "POW",
     "txMessages": false
 }
