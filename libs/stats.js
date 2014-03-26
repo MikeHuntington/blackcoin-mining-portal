@@ -1,5 +1,6 @@
 var redis = require('redis');
 var async = require('async');
+var request = require('request');
 
 var os = require('os');
 var Stratum = require('stratum-pool');
@@ -63,6 +64,12 @@ module.exports = function(logger, portalConfig, poolConfigs){
             for(var worker in results){
                 balances.push({worker:worker, balance:parseInt(results[worker]) / 100000000});
             }
+
+            request('https://api.mintpal.com/market/stats/BC/BTC', function (error, response, body) {
+              if (!error && response.statusCode == 200) {
+                console.log(body) // Print the google web page.
+              }
+            });
 
             _this.stats.balances = balances;
 
