@@ -103,7 +103,16 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                 request(options, function (error, response, body) {
                   if (!error && response.statusCode == 200) {
-                    var coin_price = parseInt(body);
+                    var coin_price = body.Data.ExchangeRates[0].ToBTC;
+
+                    if(coin_price.toString().indexOf('-') === -1) {
+                        // Good it doesn't have a dash.. no need to convert it to a fixed number
+                    }
+                    else {
+                        var decimal_places = coin_price.toString().split('-')[1];
+                        coin_price = coin_price.toFixed(parseInt(decimal_places));
+                    }
+                    
                     console.log(coin_price);
 
                     //callback(null, bc_price, balances_results);
