@@ -166,12 +166,18 @@ module.exports = function(logger){
 
     var usershares = function(req, res, next){
 
-        portalStats.getCoinTotals('Flappycoin', function(){
-            processTemplates();
+        var coin = req.params.coin || null;
 
-            res.end(indexesProcessed['user_shares']);
+        if(coin != null){
+            portalStats.getCoinTotals(coin, function(){
+                processTemplates();
 
-        });
+                res.end(indexesProcessed['user_shares']);
+
+            });
+        }
+        else
+            next();
     };
 
 
@@ -184,7 +190,7 @@ module.exports = function(logger){
         next();
     });
 
-    app.get('/stats/shares', usershares);
+    app.get('/stats/shares/:coin', usershares);
     app.get('/miner/:address', minerpage);
     app.get('/:page', route);
     app.get('/', route);
