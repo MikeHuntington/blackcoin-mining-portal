@@ -56,7 +56,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
     };
 
     this.getCoinTotals = function(coin, cback){
-        var client = redisClients[0].client;
+        var client = redisClients[0].client,
+            coinData = _this.poolConfigs[0];
 
         async.waterfall([
 
@@ -84,6 +85,26 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     var bc_price = parseInt(body[0].last_price);
 
                     callback(null, bc_price, balances_results);
+
+                  } else {
+                    callback('There was an error getting mintpal BC exchange rate');
+                  }
+                });
+            },
+
+            // make call to get coin's exchange rate
+            function(bc_price, balances_results, callback){
+                var options = {
+                    url:'http://www.coinwarz.com/v1/api/coininformation/?apikey=804139fa58ed4e59ba3ec1fe8c7ffd53&cointag=' + coinData.coin.symbol,
+                    json:true
+                } 
+
+                request(options, function (error, response, body) {
+                  if (!error && response.statusCode == 200) {
+                    var coin_price = parseInt(body);
+                    console.log(coin_price);
+
+                    //callback(null, bc_price, balances_results);
 
                   } else {
                     callback('There was an error getting mintpal BC exchange rate');
