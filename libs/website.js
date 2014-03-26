@@ -165,7 +165,7 @@ module.exports = function(logger){
     };
 
     var shares = function(req, res, next){
-        portalStats.getCoins(coin, function(){
+        portalStats.getCoins(function(){
             processTemplates();
 
             res.end(indexesProcessed['user_shares']);
