@@ -1,0 +1,6 @@
+{
+    "name"       : "Feathercoin",
+    "symbol"     : "FTC",
+    "algorithm"  : "scrypt",
+    "txMessages" : false
+}
