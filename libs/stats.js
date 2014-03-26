@@ -99,6 +99,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     json:true
                 } 
 
+                console.log('http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=' + (coinData.rate) ? coinData.rate : coinData.ID);
+
                 request(options, function (error, response, body) {
                   if (!error && response.statusCode == 200) {
                     var coin_price = body['return'].markets[coinData.symbol].lasttradeprice;
