@@ -32,6 +32,8 @@ $(function(){
         console.log(stats);
         $('#statsMiners').text(stats.global.workers);
         $('#statsHashrate').text(stats.global.hashrate);
+        $('#statsShares').text(stats.currentCoinStats.stats.poolStats.validShares);
+        $('#currentCoin').text(stats.currentCoinStats.coin);
     });
 
     $(document).ready(function() {
