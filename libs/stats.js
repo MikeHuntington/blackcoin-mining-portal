@@ -97,14 +97,15 @@ module.exports = function(logger, portalConfig, poolConfigs){
             // make call to get coin's exchange rate
             function(bc_price, balances_results, callback){
                 var options = {
-                    url:'http://www.coinwarz.com/v1/api/coininformation/?apikey=804139fa58ed4e59ba3ec1fe8c7ffd53&cointag=' + coinData.symbol,
+                    url:'http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=165',
                     json:true
                 } 
 
                 request(options, function (error, response, body) {
                   if (!error && response.statusCode == 200) {
-                    var coin_price = body.Data.ExchangeRates[0].ToBTC;
+                    var coin_price = body['return'].markets[coinData.symbol].lasttradeprice;
 
+                    /*
                     if(coin_price.toString().indexOf('-') === -1) {
                         // Good it doesn't have a dash.. no need to convert it to a fixed number
                     }
@@ -112,6 +113,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                         var decimal_places = coin_price.toString().split('-')[1];
                         coin_price = coin_price.toFixed(parseInt(decimal_places));
                     }
+                    */
 
                     callback(null, bc_price, coin_price, balances_results);
 
