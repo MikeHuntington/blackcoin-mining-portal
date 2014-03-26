@@ -94,33 +94,38 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
             // make call to get coin's exchange rate
             function(bc_price, balances_results, callback){
-                var options = {
-                    url:'http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=' + (coinData.rate) ? coinData.rate : coinData.ID,
-                    json:true
-                } 
 
-                console.log('http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=' + (coinData.rate) ? coinData.rate : coinData.ID);
+                if(coinData.ID) {
 
-                request(options, function (error, response, body) {
-                  if (!error && response.statusCode == 200) {
-                    var coin_price = body['return'].markets[coinData.symbol].lasttradeprice;
+                    var options = {
+                        url:'http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=' + coinData.ID,
+                        json:true
+                    } 
 
-                    /*
-                    if(coin_price.toString().indexOf('-') === -1) {
-                        // Good it doesn't have a dash.. no need to convert it to a fixed number
-                    }
-                    else {
-                        var decimal_places = coin_price.toString().split('-')[1];
-                        coin_price = coin_price.toFixed(parseInt(decimal_places));
-                    }
-                    */
+                    request(options, function (error, response, body) {
+                      if (!error && response.statusCode == 200) {
+                        var coin_price = body['return'].markets[coinData.symbol].lasttradeprice;
 
-                    callback(null, bc_price, coin_price, balances_results);
+                        /*
+                        if(coin_price.toString().indexOf('-') === -1) {
+                            // Good it doesn't have a dash.. no need to convert it to a fixed number
+                        }
+                        else {
+                            var decimal_places = coin_price.toString().split('-')[1];
+                            coin_price = coin_price.toFixed(parseInt(decimal_places));
+                        }
+                        */
 
-                  } else {
-                    callback('There was an error getting mintpal BC exchange rate');
-                  }
-                });
+                        callback(null, bc_price, coin_price, balances_results);
+
+                      } else {
+                        callback('There was an error getting mintpal BC exchange rate');
+                      }
+                    });
+                }
+                else {
+                    callback(null, bc_price, coinData.rate, balances_results);
+                }
             },
 
             // Calculate the amount of BC earned from the worker's balance
