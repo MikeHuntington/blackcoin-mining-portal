@@ -53,7 +53,9 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
         client.hgetall(coin + '_balances', function(error, results){
 
-            console.log(results);
+            for (var i = 0; i < results.length; i++){
+                console.log(results[i]);
+            }
         });
     };
 
