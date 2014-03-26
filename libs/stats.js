@@ -79,6 +79,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
             });
 
         }, function(err){
+            _this.stats.balances = balances;
             cback();
         });
 
