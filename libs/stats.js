@@ -54,7 +54,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
         client.hgetall(coin + '_balances', function(error, results){
 
             for(var worker in results){
-                console.log(results[worker]);
+                console.log(parseInt(results[worker]) / 100000000);
             }
         });
 
