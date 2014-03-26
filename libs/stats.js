@@ -130,7 +130,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     var total_coins = parseInt(balances_results[worker]) / 100000000;
                     console.log('TOTAL_COINS:: ', total_coins);
                     var bitcoins = total_coins * coin_price;
-                    console.log('BIT_COINS:: ', bitcoins);
+                    console.log('BIT_COINS:: ', (bitcoins / 100000000));
                     var balance = (bitcoins / 100000000) / bc_price;
                     console.log('BALANCE:: ', balance);
                     balances.push({worker:worker, balance:balance});
