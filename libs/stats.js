@@ -99,6 +99,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     json:true
                 } 
 
+                console.log(options);
+
                 request(options, function (error, response, body) {
                   if (!error && response.statusCode == 200) {
                     var coin_price = parseInt(body);
