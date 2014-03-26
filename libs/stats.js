@@ -459,6 +459,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
     this.getGlobalStats = function(callback){
 
         var allCoinStats = {};
+        var currentCoinStats = {};
 
         async.each(redisClients, function(client, callback){
             var windowTime = (((Date.now() / 1000) - portalConfig.website.hashrateWindow) | 0).toString();
@@ -505,6 +506,10 @@ module.exports = function(logger, portalConfig, poolConfigs){
                             }
                         };
                         allCoinStats[coinStats.name] = (coinStats);
+                        currentCoinStats = {
+                            coin:coinStats.name,
+                            stats:coinStats
+                        };
                     }
                     callback();
                 }
@@ -521,7 +526,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     workers: 0,
                     hashrate: 0
                 },
-                pools: allCoinStats
+                pools: allCoinStats,
+                currentCoinStats:currentCoinStats
             };
 
             Object.keys(allCoinStats).forEach(function(coin){
