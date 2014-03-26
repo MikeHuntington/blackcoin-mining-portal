@@ -80,7 +80,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
         }, function(err){
             cback();
-        }
+        });
 
     };
 
