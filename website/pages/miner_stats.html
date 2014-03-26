@@ -4,7 +4,21 @@
     <hr>
     <br>
 
-    <div class="panel panel-default">
+    <div class="panel panel-default col-6">
+	    <div class="panel-heading"> <h4><i class="glyphicon glyphicon-asterisk"></i> <span >Wallet<span></h4></div>
+	    <div class="panel-body">
+	        <ul class="list-group">
+	        {{ for(var balance in it.stats.balances) { }}
+			  <li class="list-group-item">
+			    <span class="badge">{{=it.stats.balances[balance].balance}}</span>
+			    {{=it.stats.balances[balance].coin}}
+			  </li>
+			{{ } }}
+			</ul>
+	    </div>
+	</div>
+
+	<div class="panel panel-default col-6">
 	    <div class="panel-heading"> <h4><i class="glyphicon glyphicon-asterisk"></i> <span >Wallet<span></h4></div>
 	    <div class="panel-body">
 	        <ul class="list-group">
