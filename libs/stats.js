@@ -56,33 +56,58 @@ module.exports = function(logger, portalConfig, poolConfigs){
     };
 
     this.getCoinTotals = function(coin, cback){
-        var client = redisClients[0].client,
-            balances = [];
+        var client = redisClients[0].client;
 
-        console.log(_this.poolConfigs[coin]);
+        async.waterfall([
 
-        client.hgetall(coin + '_balances', function(error, results){
+            // Get all balances from redis
+            function(callback){
+                client.hgetall(coin + '_balances', function(error, results){
+                    if (error){
+                        callback('There was an error getting balances');
+                        return;
+                    }
 
-            var options = {
-                url:'https://api.mintpal.com/market/stats/BC/BTC',
-                json:true
-            }
+                    callback(null, results);
+                });
+            },
 
-            request(options, function (error, response, body) {
-              if (!error && response.statusCode == 200) {
-                var bc_price = parseInt(body[0].last_price);
+            // make a call to Mintpal to get BC exchange rate
+            function(balances_results, callback){
+                var options = {
+                    url:'https://api.mintpal.com/market/stats/BC/BTC',
+                    json:true
+                } 
 
-                for(var worker in results){
-                    var balance = bc_price / (parseInt(results[worker]) / 100000000);
+                request(options, function (error, response, body) {
+                  if (!error && response.statusCode == 200) {
+                    var bc_price = parseInt(body[0].last_price);
+
+                    callback(null, bc_price, balances_results);
+
+                  } else {
+                    callback('There was an error getting mintpal BC exchange rate');
+                  }
+                });
+            },
+
+            // Calculate the amount of BC earned from the worker's balance
+            function(bc_price, balances_results, callback){
+
+                var balances = [];
+
+                for(var worker in balances_results){
+                    var balance = bc_price / (parseInt(balances_results[worker]) / 100000000);
                     balances.push({worker:worker, balance:balance});
                 }
 
-                _this.stats.balances = balances;
+                callback(null, balances);
+            }
 
-                cback();
+        ], function(err, balances){
+            _this.stats.balances = balances;
 
-              }
-            });
+            cback();
         });
 
     };
