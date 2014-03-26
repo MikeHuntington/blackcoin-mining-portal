@@ -82,7 +82,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                 request(options, function (error, response, body) {
                   if (!error && response.statusCode == 200) {
-                    var bc_price = parseInt(body[0].last_price);
+                    var bc_price = parseFloat(body[0].last_price);
 
                     console.log('-------------------------- ', bc_price);
 
@@ -127,7 +127,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                 var balances = [];
 
                 for(var worker in balances_results){
-                    var total_coins = parseInt(balances_results[worker]) / 100000000;
+                    var total_coins = parseFloat(balances_results[worker]) / 100000000;
                     //console.log('TOTAL_COINS:: ', total_coins.toFixed());
                     //console.log('COIN_PRICE:: ', coin_price);
                     var bitcoins = total_coins.toFixed() * coin_price;
