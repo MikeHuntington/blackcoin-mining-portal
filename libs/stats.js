@@ -55,6 +55,35 @@ module.exports = function(logger, portalConfig, poolConfigs){
         cback();
     };
 
+    this.getBalanceByAddress = function(address, cback){
+
+        var client = redisClients[0].client,
+            coins = ['Lottocoin'],
+            balances = [];
+
+        async.each(coins, function(coin, cb){
+
+            client.hget(coin + '_balances', address, function(error, result){
+                if (error){
+                    callback('There was an error getting balances');
+                    return;
+                }
+
+                console.log(result);
+                balances.push({
+                    coin:coin,
+                    balance:result
+                });
+
+                cb();
+            });
+
+        }, function(err){
+            cback();
+        }
+
+    };
+
     this.getCoinTotals = function(coin, cback){
         var client = redisClients[0].client,
             coinData = _this.poolConfigs[coin];

@@ -3,7 +3,20 @@
     <h1><strong>{{=it.stats.minerStats.address}} </strong> </h1>
     <br>
 
-
+    <div class="panel panel-default">
+	    <div class="panel-heading"> <h4><i class="glyphicon glyphicon-asterisk"></i> <span >Wallet<span></h4></div>
+	    <div class="panel-body">
+	        <ul class="list-group">
+	        {{ for(var balance in it.stats.balances) { }}
+			  <li class="list-group-item">
+			    <span class="badge">{{=it.stats.balances[balance].balance}}</span>
+			    {{=it.stats.balances[balance].coin}}
+			  </li>
+			{{ } }}
+			</ul>
+	    </div>
+	</div>
+<!--
 
     {{ for(var coin in it.stats.minerStats.coins) { }}
 	<div class="panel panel-default">
@@ -65,6 +78,8 @@
 	    </div>
 	</div>
 
+-->
+
 
 	<!-- Debug -->
 	<div class="debug" style="display:none;">
@@ -77,6 +92,7 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
+	/*
 	$.each($('.blockAmount'), function(i, v){
 		if($(v).html() === "undefined") {
 			$(v).html(' --- ');
@@ -88,6 +104,7 @@ $(document).ready(function(){
 			$(v).html(' --- ');
 		}
 	});
+	*/
 });
 
 </script>
