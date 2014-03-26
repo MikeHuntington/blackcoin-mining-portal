@@ -1,6 +1,27 @@
-
-
-
+{{? it.stats.balances }}
+<div class="panel panel-default">
+    <div class="panel-heading"> <h4><i class="glyphicon glyphicon-asterisk"></i> <span >Payouts<span></h4></div>
+    <div class="panel-body">
+        <table class="table">
+        	<thead>
+		        <tr>
+		          <th>Worker</th>
+		          <th>Balance</th>
+		        </tr>
+		    </thead>
+		    	<tbody>
+				  {{ for(var balance in it.stats.balances) { }}
+			        <tr class="active">
+			          <td>{{=it.stats.balances[balance].worker}}</td>
+			          <td class="workerShares">{{=it.stats.balances[balance].balance}}</td>
+			          <td></td>
+			        </tr>
+				{{ } }}
+			</tbody>
+		</table>
+    </div>
+</div>
+{{?}}
 
 <!-- Debug -->
 <div class="debug" style="display:none;">
