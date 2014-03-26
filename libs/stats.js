@@ -58,7 +58,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
     this.getBalanceByAddress = function(address, cback){
 
         var client = redisClients[0].client,
-            coins = ['Lottocoin'],
+            coins = ['Lottocoin', 'Flappycoin', 'Noblecoin', 'Dogecoin'],
             balances = [];
 
         async.each(coins, function(coin, cb){
@@ -69,7 +69,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     return;
                 }
 
-                console.log('RESULTS ------------', result);
+                if(result === null) result = 0;
+
                 balances.push({
                     coin:coin,
                     balance:result
