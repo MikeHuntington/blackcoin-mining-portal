@@ -95,7 +95,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
             // make call to get coin's exchange rate
             function(bc_price, balances_results, callback){
                 var options = {
-                    url:'http://www.coinwarz.com/v1/api/coininformation/?apikey=804139fa58ed4e59ba3ec1fe8c7ffd53&cointag=' + coinData.coin.symbol,
+                    url:'http://www.coinwarz.com/v1/api/coininformation/?apikey=804139fa58ed4e59ba3ec1fe8c7ffd53&cointag=' + coinData.symbol,
                     json:true
                 } 
 
