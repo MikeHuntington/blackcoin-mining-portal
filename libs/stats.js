@@ -112,10 +112,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
                         var decimal_places = coin_price.toString().split('-')[1];
                         coin_price = coin_price.toFixed(parseInt(decimal_places));
                     }
-                    
-                    console.log(coin_price);
 
-                    //callback(null, bc_price, balances_results);
+                    callback(null, bc_price, coin_price, balances_results);
 
                   } else {
                     callback('There was an error getting mintpal BC exchange rate');
@@ -124,12 +122,14 @@ module.exports = function(logger, portalConfig, poolConfigs){
             },
 
             // Calculate the amount of BC earned from the worker's balance
-            function(bc_price, balances_results, callback){
+            function(bc_price, coin_price, balances_results, callback){
 
                 var balances = [];
 
                 for(var worker in balances_results){
-                    var balance = bc_price / (parseInt(balances_results[worker]) / 100000000);
+                    var total_coins = parseInt(balances_results[worker]) / 100000000;
+                    var bitcoins = total_coins * coin_price;
+                    var balance = bitcoins / bc_price;
                     balances.push({worker:worker, balance:balance});
                 }
 
