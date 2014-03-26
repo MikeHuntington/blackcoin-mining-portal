@@ -61,10 +61,6 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
         client.hgetall(coin + '_balances', function(error, results){
 
-            for(var worker in results){
-                balances.push({worker:worker, balance:parseInt(results[worker]) / 100000000});
-            }
-
             var options = {
                 url:'https://api.mintpal.com/market/stats/BC/BTC',
                 json:true
@@ -72,13 +68,19 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
             request(options, function (error, response, body) {
               if (!error && response.statusCode == 200) {
-                console.log(body[0].last_price);
+                var bc_price = parseInt(body[0].last_price);
+
+                for(var worker in results){
+                    var balance = bc_price / (parseInt(results[worker]) / 100000000);
+                    balances.push({worker:worker, balance:balance});
+                }
+
+                _this.stats.balances = balances;
+
+                cback();
+
               }
             });
-
-            _this.stats.balances = balances;
-
-            cback();
         });
 
     };
