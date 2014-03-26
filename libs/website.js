@@ -127,7 +127,7 @@ module.exports = function(logger){
         });
     };
 
-    setInterval(buildUpdatedWebsite, websiteConfig.statUpdateInterval * 3000);
+    setInterval(buildUpdatedWebsite, websiteConfig.statUpdateInterval * 2000);
 
 
     var app = express();
