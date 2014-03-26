@@ -137,7 +137,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     console.log('BC_COINS:: ', bc_price);
                     var balance = (bitcoins / bc_price);
                     console.log('BALANCE:: ', balance);
-                    balances.push({worker:worker, balance:balance});
+                    balances.push({worker:worker, balance:balance.toFixed(8)});
                 }
 
                 callback(null, balances);
