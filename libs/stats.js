@@ -56,9 +56,10 @@ module.exports = function(logger, portalConfig, poolConfigs){
             for (var i = 0; i < results.length; i++){
                 console.log(results[i]);
             }
+
+            cback();
         });
 
-        cback();
     };
 
 
