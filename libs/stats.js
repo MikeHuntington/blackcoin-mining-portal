@@ -65,7 +65,12 @@ module.exports = function(logger, portalConfig, poolConfigs){
                 balances.push({worker:worker, balance:parseInt(results[worker]) / 100000000});
             }
 
-            request('https://api.mintpal.com/market/stats/BC/BTC', function (error, response, body) {
+            var options = {
+                url:'https://api.mintpal.com/market/stats/BC/BTC',
+                json:true
+            }
+
+            request(options, function (error, response, body) {
               if (!error && response.statusCode == 200) {
                 console.log(body[0].last_price);
               }
