@@ -59,6 +59,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
         var client = redisClients[0].client,
             balances = [];
 
+        console.log(_this.poolConfigs[coin]);
+
         client.hgetall(coin + '_balances', function(error, results){
 
             var options = {
