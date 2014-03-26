@@ -84,6 +84,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
                   if (!error && response.statusCode == 200) {
                     var bc_price = parseInt(body[0].last_price);
 
+                    console.log('-------------------------- ', bc_price);
+
                     callback(null, bc_price, balances_results);
 
                   } else {
@@ -98,8 +100,6 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     url:'http://www.coinwarz.com/v1/api/coininformation/?apikey=804139fa58ed4e59ba3ec1fe8c7ffd53&cointag=' + coinData.symbol,
                     json:true
                 } 
-
-                console.log(options);
 
                 request(options, function (error, response, body) {
                   if (!error && response.statusCode == 200) {
@@ -128,13 +128,13 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                 for(var worker in balances_results){
                     var total_coins = parseInt(balances_results[worker]) / 100000000;
-                    console.log('TOTAL_COINS:: ', total_coins.toFixed());
-                    console.log('COIN_PRICE:: ', coin_price);
+                    //console.log('TOTAL_COINS:: ', total_coins.toFixed());
+                    //console.log('COIN_PRICE:: ', coin_price);
                     var bitcoins = total_coins.toFixed() * coin_price;
-                    console.log('BIT_COINS:: ', bitcoins);
-                    console.log('BC_COINS:: ', bc_price);
+                    //console.log('BIT_COINS:: ', bitcoins);
+                    //console.log('BC_COINS:: ', bc_price);
                     var balance = bitcoins / bc_price;
-                    console.log('BALANCE:: ', balance);
+                    //console.log('BALANCE:: ', balance);
                     balances.push({worker:worker, balance:balance});
                 }
 
