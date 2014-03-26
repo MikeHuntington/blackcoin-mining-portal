@@ -69,7 +69,11 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     return;
                 }
 
-                if(result === null) result = 0;
+                if(result === null) {
+                    result = 0;
+                }else{
+                    result = result / 100000000;
+                }
 
                 balances.push({
                     coin:coin,
