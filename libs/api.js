@@ -30,6 +30,8 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     delete _this.liveStatConnections[uid];
                 });
 
+                res.end(portalStats.statsString);
+
                 return;
             default:
                 next();
