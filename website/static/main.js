@@ -29,6 +29,7 @@ $(function(){
     var statsSource = new EventSource("/api/live_stats");
     statsSource.addEventListener('message', function(e){
         var stats = JSON.parse(e.data);
+        console.log(stats);
         $('#statsMiners').text(stats.global.workers);
         $('#statsHashrate').text(stats.global.hashrate);
     });
