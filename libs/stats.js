@@ -63,11 +63,12 @@ module.exports = function(logger, portalConfig, poolConfigs){
             for(var worker in results){
                 balances.push({worker:worker, balance:parseInt(results[worker]) / 100000000});
             }
+
+            _this.stats.balances = balances;
+
+            cback();
         });
 
-        _this.stats.balances = balances;
-
-        cback();
     };
 
 
