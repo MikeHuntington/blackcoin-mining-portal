@@ -13,6 +13,9 @@
 		    <div class="panel panel-default">
 			    <div class="panel-heading"> <h4><i class="glyphicon glyphicon-asterisk"></i> <span >Wallet<span></h4></div>
 			    <div class="panel-body">
+
+			    	<p class="lead">Payouts are made daily between 12am-2am UTC (8pm-10pm EST)</p>
+			    	
 			        <ul class="list-group">
 			        {{ for(var balance in it.stats.balances) { }}
 					  <li class="list-group-item">
@@ -21,8 +24,6 @@
 					  </li>
 					{{ } }}
 					</ul>
-
-					<p class="lead">Payouts are made daily between 12am-2am UTC (8pm-10pm EST)</p>
 			    </div>
 			</div>
 
