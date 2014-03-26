@@ -84,8 +84,6 @@ module.exports = function(logger, portalConfig, poolConfigs){
                   if (!error && response.statusCode == 200) {
                     var bc_price = parseFloat(body[0].last_price);
 
-                    console.log('-------------------------- ', bc_price);
-
                     callback(null, bc_price, balances_results);
 
                   } else {
@@ -97,7 +95,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
             // make call to get coin's exchange rate
             function(bc_price, balances_results, callback){
                 var options = {
-                    url:'http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=165',
+                    url:'http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=' + (coinData.rate) ? coinData.rate : coinData.ID,
                     json:true
                 } 
 
