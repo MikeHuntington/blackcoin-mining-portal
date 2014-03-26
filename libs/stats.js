@@ -131,9 +131,9 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     console.log('TOTAL_COINS:: ', total_coins.toFixed());
                     console.log('COIN_PRICE:: ', coin_price);
                     var bitcoins = total_coins.toFixed() * coin_price;
-                    console.log('BIT_COINS:: ', (bitcoins / 1));
+                    console.log('BIT_COINS:: ', bitcoins);
                     console.log('BC_COINS:: ', bc_price);
-                    var balance = (bitcoins / 1) / bc_price;
+                    var balance = bitcoins / bc_price;
                     console.log('BALANCE:: ', balance);
                     balances.push({worker:worker, balance:balance});
                 }
