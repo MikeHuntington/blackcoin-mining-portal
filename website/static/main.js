@@ -31,7 +31,7 @@ $(function(){
         var stats = JSON.parse(e.data);
         
         $('#statsMiners').text(stats.global.workers);
-        $('#statsHashrate').text(stats.global.hashrate);
+        $('#statsHashrate').text((parseFloat(stats.global.hashrate) * 0.001).toFixed(2));
         $('#statsShares').text(stats.currentCoinStats.stats.poolStats.validShares);
         $('#currentCoin').text(stats.currentCoinStats.coin);
     });
