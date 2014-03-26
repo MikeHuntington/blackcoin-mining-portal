@@ -69,7 +69,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
                     return;
                 }
 
-                console.log(result);
+                console.log('RESULTS ------------', result);
                 balances.push({
                     coin:coin,
                     balance:result
