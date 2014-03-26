@@ -48,6 +48,15 @@ module.exports = function(logger, portalConfig, poolConfigs){
         return parts.join(".");
     };
 
+    this.getCoinTotals = function(coin, cback){
+        var client = redisClients[0].client;
+
+        client.hgetall(coin + '_balances', function(error, results){
+
+            console.log(results);
+        });
+    };
+
 
     this.getMinerStats = function(address, cback){
 

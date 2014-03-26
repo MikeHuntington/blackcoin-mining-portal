@@ -165,8 +165,13 @@ module.exports = function(logger){
     };
 
     var usershares = function(req, res, next){
-        processTemplates();
-        res.end(indexesProcessed['user_shares']);
+
+        portalStats.getCoinTotals('Flappycoin', function(){
+            processTemplates();
+
+            res.end(indexesProcessed['user_shares']);
+
+        });
     };
 
 
