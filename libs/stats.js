@@ -57,7 +57,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
     this.getCoinTotals = function(coin, cback){
         var client = redisClients[0].client,
-            coinData = _this.poolConfigs[0];
+            coinData = _this.poolConfigs[coin];
 
         async.waterfall([
 
