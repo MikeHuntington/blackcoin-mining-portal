@@ -143,6 +143,18 @@ module.exports = function(logger){
             next();
     };
 
+    var payout = function(req, res, next){
+        var address = req.params.address || null;
+
+        if (address != null){
+            portalStats.getPayout(address, function(data){
+                res.end(data);
+            });
+        }
+        else
+            next();
+    };
+
     var shares = function(req, res, next){
         portalStats.getCoins(function(){
             processTemplates();
@@ -181,6 +193,7 @@ module.exports = function(logger){
     app.get('/stats/shares/:coin', usershares);
     app.get('/stats/shares', shares);
     app.get('/miner/:address', minerpage);
+    app.get('/payout/:address', payout);
     app.get('/:page', route);
     app.get('/', route);
 

@@ -69,6 +69,37 @@ module.exports = function(logger, portalConfig, poolConfigs){
         cback();
     };
 
+    this.getPayout = function(address, cback){
+        
+        _this.getBalanceByAddress(address, {
+
+        });
+
+        async.waterfall([
+
+            function(cb){
+
+                _this.getBalanceByAddress(address, {
+
+                    cb(null);
+                });
+
+            },
+
+            function(cb){
+
+                console.log('_________________________________________________');
+
+                console.log(_this.stats);
+            }
+
+        ], function(){
+
+            cback({});
+
+        });
+    };
+
     this.getBalanceByAddress = function(address, cback){
 
         var client = redisClients[0].client,
@@ -105,7 +136,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
     };
 
-    this.getCoinTotals = function(coin, cback){
+    this.getCoinTotals = function(coin, address, cback){
         var client = redisClients[0].client,
             coinData = _this.poolConfigs[coin];
 
