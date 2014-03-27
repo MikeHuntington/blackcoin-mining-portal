@@ -81,12 +81,12 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
                 _this.getBalanceByAddress(address, {
 
-                    cb(null);
+                    cb();
                 });
 
             },
 
-            function(cb){
+            function(){
 
                 console.log('_________________________________________________');
 
