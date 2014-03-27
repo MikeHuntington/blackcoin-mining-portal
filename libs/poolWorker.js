@@ -164,9 +164,7 @@ module.exports = function(logger){
         Object.keys(pools).forEach(function(coin) {
             var p = pools[coin];
 
-            var internalEnabled = p.shareProcessing && p.shareProcessing.internal && p.shareProcessing.internal.enabled;
-
-            console.log(p);
+            var internalEnabled = p.currentCoin;
 
             if (!internalEnabled ){
                 console.log(coin, '____________________________________________ DISABLED');
