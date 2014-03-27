@@ -101,7 +101,7 @@ var spawnPoolWorkers = function(portalConfig, poolConfigs){
 
         if (!internalEnabled && !mposEnabled){
             logger.error('Master', coin, 'Share processing is not configured so a pool cannot be started for this coin.');
-            //delete poolConfigs[coin];
+            delete poolConfigs[coin];
         }
     });
 

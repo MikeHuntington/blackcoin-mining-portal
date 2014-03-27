@@ -48,7 +48,6 @@ module.exports = function(logger){
 
     Object.keys(poolConfigs).forEach(function(coin) {
 
-
         var poolOptions = poolConfigs[coin];
 
         var logSystem = 'Pool';
@@ -61,13 +60,6 @@ module.exports = function(logger){
             share: function(){},
             diff: function(){}
         };
-
-        var internalEnabled = poolOptions.shareProcessing && poolOptions.shareProcessing.internal && poolOptions.shareProcessing.internal.enabled;
-        var mposEnabled = poolOptions.shareProcesssing && poolOptions.shareProcessing.mpos && poolOptions.shareProcessing.mpos.enabled;
-
-        if (!internalEnabled && !mposEnabled){
-            return;
-        }
 
         var shareProcessing = poolOptions.shareProcessing;
 
@@ -160,23 +152,7 @@ module.exports = function(logger){
 
     
     if (typeof(portalConfig.proxy) !== 'undefined' && portalConfig.proxy.enabled === true) {
-
-        Object.keys(pools).forEach(function(coin) {
-            var p = pools[coin];
-
-            var internalEnabled = p.options.currentCoin;
-
-
-            if (!internalEnabled ){
-                console.log(coin, '____________________________________________ DISABLED');
-                return;
-            } else {
-                proxyStuff.curActivePool = pools[coin];
-                console.log(coin,' ____________________________________________ ACTIVE');
-                return;
-            }
-        });
-
+        proxyStuff.curActivePool = Object.keys(pools)[0];
         proxyStuff.proxys = {};
         proxyStuff.varDiffs = {};
         Object.keys(portalConfig.proxy.ports).forEach(function(port) {
