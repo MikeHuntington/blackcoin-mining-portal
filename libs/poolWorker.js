@@ -62,10 +62,9 @@ module.exports = function(logger){
             diff: function(){}
         };
 
-        var internalEnabled = poolOptions.shareProcessing && poolOptions.shareProcessing.internal && poolOptions.shareProcessing.internal.enabled;
-        var mposEnabled = poolOptions.shareProcesssing && poolOptions.shareProcessing.mpos && poolOptions.shareProcessing.mpos.enabled;
+        var internalEnabled = poolOptions.options.currentCoin;
 
-        if (!internalEnabled && !mposEnabled){
+        if (!internalEnabled){
             return;
         }
 
@@ -166,7 +165,6 @@ module.exports = function(logger){
 
             var internalEnabled = p.options.currentCoin;
 
-            console.log(p);
 
             if (!internalEnabled ){
                 console.log(coin, '____________________________________________ DISABLED');
