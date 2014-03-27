@@ -175,7 +175,7 @@ module.exports = function(logger){
                 proxyStuff.curActivePool = Object.keys(pools)[0];
                 return;
             }
-        };
+        });
 
         proxyStuff.proxys = {};
         proxyStuff.varDiffs = {};
