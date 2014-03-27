@@ -161,7 +161,22 @@ module.exports = function(logger){
 
     
     if (typeof(portalConfig.proxy) !== 'undefined' && portalConfig.proxy.enabled === true) {
-        proxyStuff.curActivePool = Object.keys(pools)[0];
+
+        Object.keys(pools).forEach(function(coin) {
+            var p = pools[coin];
+
+            var internalEnabled = p.shareProcessing && p.shareProcessing.internal && p.shareProcessing.internal.enabled;
+            var mposEnabled = p.shareProcesssing && p.shareProcessing.mpos && p.shareProcessing.mpos.enabled;
+
+            if (!internalEnabled && !mposEnabled){
+                logger.error('Master', coin, 'Share processing is not configured so a pool cannot be started for this coin.');
+                return;
+            } else {
+                proxyStuff.curActivePool = Object.keys(pools)[0];
+                break;
+            }
+        };
+
         proxyStuff.proxys = {};
         proxyStuff.varDiffs = {};
         Object.keys(portalConfig.proxy.ports).forEach(function(port) {
