@@ -166,6 +166,8 @@ module.exports = function(logger){
 
             var internalEnabled = p.shareProcessing && p.shareProcessing.internal && p.shareProcessing.internal.enabled;
 
+            console.log(p);
+
             if (!internalEnabled ){
                 console.log(coin, '____________________________________________ DISABLED');
                 return;
