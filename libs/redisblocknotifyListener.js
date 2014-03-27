@@ -12,6 +12,9 @@ var listener = module.exports = function listener(options){
 
 
     this.start = function(){
+
+        if(!options.shareProcessing.internal) return;
+        
         redisConnection = redis.createClient(options.redisPort, options.redisHost);
         redisConnection.on("pmessage", function (pattern, channel, message) {
             var coinname = channel.split(':')[1];
