@@ -71,11 +71,11 @@ if (cluster.isWorker){
 
 
 //Read all pool configs from pool_configs and join them with their coin profile
-var buildPoolConfigs = function(){
+var buildPoolConfigs = function(inactive){
     var configs = {};
     fs.readdirSync('pool_configs').forEach(function(file){
         var poolOptions = JSON.parse(JSON.minify(fs.readFileSync('pool_configs/' + file, {encoding: 'utf8'})));
-        if (poolOptions.disabled) return;
+        if (!poolOptions.currentCoin && !inactive) return;
         var coinFilePath = 'coins/' + poolOptions.coin;
         if (!fs.existsSync(coinFilePath)){
             logger.error('Master', poolOptions.coin, 'could not find file: ' + coinFilePath);
@@ -237,7 +237,8 @@ var startWebsite = function(portalConfig, poolConfigs){
 
 (function init(){
 
-    var poolConfigs = buildPoolConfigs();
+    var poolConfigs = buildPoolConfigs(false);
+    var inactivePools = buildPoolConfigs(true);
 
     spawnPoolWorkers(portalConfig, poolConfigs);
 
