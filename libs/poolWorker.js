@@ -66,7 +66,6 @@ module.exports = function(logger){
         var mposEnabled = poolOptions.shareProcesssing && poolOptions.shareProcessing.mpos && poolOptions.shareProcessing.mpos.enabled;
 
         if (!internalEnabled && !mposEnabled){
-            logger.error('Master', coin, 'Share processing is not configured so a pool cannot be started for this coin.');
             return;
         }
 
@@ -169,7 +168,6 @@ module.exports = function(logger){
             var mposEnabled = p.shareProcesssing && p.shareProcessing.mpos && p.shareProcessing.mpos.enabled;
 
             if (!internalEnabled && !mposEnabled){
-                logger.error('Master', coin, 'Share processing is not configured so a pool cannot be started for this coin.');
                 console.log(coin, '____________________________________________ DISABLED');
                 return;
             } else {
