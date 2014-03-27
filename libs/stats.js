@@ -70,16 +70,12 @@ module.exports = function(logger, portalConfig, poolConfigs){
     };
 
     this.getPayout = function(address, cback){
-        
-        _this.getBalanceByAddress(address, {
-
-        });
 
         async.waterfall([
 
             function(callback){
 
-                _this.getBalanceByAddress(address, {
+                _this.getBalanceByAddress(address, function(){
 
                     callback(null, 'test');
                 });
