@@ -84,11 +84,18 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
             function(msg, callback){
 
-                console.log('_________________________________________________');
+                var totalBC = 0;
 
-                console.log(_this.stats);
+                async.each(_this.stats.balances, function(balance, cb){
 
-                callback(null, msg);
+                    _this.getCoinTotals(balance.coin, balance.balance, function(bc){
+
+                        totalBC += bc;
+                    });
+
+                }, function(err){
+
+                });
             }
 
         ], function(err, msg){
@@ -134,14 +141,20 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
     };
 
-    this.getCoinTotals = function(coin, address, cback){
+    this.getCoinTotals = function(coin, balance, cback){
         var client = redisClients[0].client,
             coinData = _this.poolConfigs[coin];
 
         async.waterfall([
 
-            // Get all balances from redis
+            // Get all balances from redis if no balance was provided already
             function(callback){
+
+                if(balance) {
+                    callback(null, balance);
+                    return;
+                }
+
                 client.hgetall(coin + '_balances', function(error, results){
                     if (error){
                         callback('There was an error getting balances');
@@ -210,6 +223,15 @@ module.exports = function(logger, portalConfig, poolConfigs){
             // Calculate the amount of BC earned from the worker's balance
             function(bc_price, coin_price, balances_results, callback){
 
+                if(!Array.isArray(balances_results)) {
+                    var total_coins = balances_results
+                    var bitcoins = total_coins.toFixed() * coin_price;
+                    var balance = (bitcoins / bc_price);
+
+                    callback(null, balance);
+                    return;
+                }
+
                 var balances = [];
 
                 for(var worker in balances_results){
@@ -223,6 +245,12 @@ module.exports = function(logger, portalConfig, poolConfigs){
             }
 
         ], function(err, balances){
+
+            if(balance) {
+                cback(balances);
+                return;
+            }
+
             _this.stats.balances = balances;
 
             cback();

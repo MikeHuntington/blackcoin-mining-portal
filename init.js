@@ -94,13 +94,14 @@ var buildPoolConfigs = function(){
 var spawnPoolWorkers = function(portalConfig, poolConfigs){
 
     Object.keys(poolConfigs).forEach(function(coin){
+
         var p = poolConfigs[coin];
         var internalEnabled = p.shareProcessing && p.shareProcessing.internal && p.shareProcessing.internal.enabled;
         var mposEnabled = p.shareProcesssing && p.shareProcessing.mpos && p.shareProcessing.mpos.enabled;
 
         if (!internalEnabled && !mposEnabled){
             logger.error('Master', coin, 'Share processing is not configured so a pool cannot be started for this coin.');
-            delete poolConfigs[coin];
+            //delete poolConfigs[coin];
         }
     });
 

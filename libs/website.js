@@ -169,7 +169,7 @@ module.exports = function(logger){
         var coin = req.params.coin || null;
 
         if(coin != null){
-            portalStats.getCoinTotals(coin, function(){
+            portalStats.getCoinTotals(coin, null, function(){
                 processTemplates();
 
                 res.end(indexesProcessed['user_shares']);

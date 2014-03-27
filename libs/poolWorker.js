@@ -48,6 +48,7 @@ module.exports = function(logger){
 
     Object.keys(poolConfigs).forEach(function(coin) {
 
+
         var poolOptions = poolConfigs[coin];
 
         var logSystem = 'Pool';
@@ -60,6 +61,14 @@ module.exports = function(logger){
             share: function(){},
             diff: function(){}
         };
+
+        var internalEnabled = poolOptions.shareProcessing && poolOptions.shareProcessing.internal && poolOptions.shareProcessing.internal.enabled;
+        var mposEnabled = poolOptions.shareProcesssing && poolOptions.shareProcessing.mpos && poolOptions.shareProcessing.mpos.enabled;
+
+        if (!internalEnabled && !mposEnabled){
+            logger.error('Master', coin, 'Share processing is not configured so a pool cannot be started for this coin.');
+            return;
+        }
 
         var shareProcessing = poolOptions.shareProcessing;
 
