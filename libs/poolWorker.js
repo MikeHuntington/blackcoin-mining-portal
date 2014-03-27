@@ -166,6 +166,8 @@ module.exports = function(logger){
 
             var internalEnabled = p.currentCoin;
 
+            console.log(p);
+
             if (!internalEnabled ){
                 console.log(coin, '____________________________________________ DISABLED');
                 return;
