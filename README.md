@@ -92,7 +92,8 @@ config directory and coin.conf file. For more info on this see:
 Clone the repository and run `npm update` for all the dependencies to be installed:
 
 ```bash
-git clone https://github.com/zone117x/node-stratum-portal.git
+git clone https://github.com/zone117x/node-stratum-portal.git nomp
+cd nomp
 npm update
 ```
 
@@ -371,9 +372,11 @@ BTC: 1KRotMnQpxu3sePQnsVLRy3EraRFYfJQFR
 
 Credits
 -------
-* [vekexasia](https://github.com/vekexasia) - co-developer & great tester
-* [TheSeven](https://github.com/TheSeven) - answering an absurd amount of my questions and being a very helpful gentleman
-* Those that contributed to [node-stratum-pool](/zone117x/node-stratum-pool)
+* [Tony Dobbs](//anthonydobbs.com) - graphical help with logo and front-end design
+* [vekexasia](http://github.com/vekexasia) - co-developer & great tester
+* [TheSeven](http://github.com/TheSeven) - answering an absurd amount of my questions and being a very helpful gentleman
+* [UdjinM6](http://github.com/UdjinM6) - helped implement fee withdrawal in payment processing
+* Those that contributed to [node-stratum-pool](http://github.com/zone117x/node-stratum-pool)
 
 
 License

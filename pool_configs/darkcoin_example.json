@@ -1,6 +1,6 @@
 {
     "disabled": true,
-    "coin": "litecoin.json",
+    "coin": "darkcoin.json",
 
     "shareProcessing": {
         "internal": {
@@ -10,13 +10,13 @@
             "minimumPayment": 100.001,
             "minimumReserve": 10,
             "feePercent": 0.02,
-            "feeReceiveAddress": "LZz44iyF4zLCXJTU8RxztyyJZBntdS6fvv",
+            "feeReceiveAddress": "XfkoYutJ8KYtLxZ4TgnMqC6SCmxuc3LEDY",
             "feeWithdrawalThreshold": 5,
             "daemon": {
                 "host": "localhost",
-                "port": 19332,
-                "user": "litecoinrpc",
-                "password": "testnet"
+                "port": 18342,
+                "user": "darkcoinrpc1",
+                "password": "testpass"
             },
             "redis": {
                 "host": "localhost",
@@ -34,8 +34,7 @@
         }
     },
 
-
-    "address": "mfsm1ckZKTTjDz94KonZZsbZnAbm1UV4BF",
+    "address": "XfkoYutJ8KYtLxZ4TgnMqC6SCmxuc3LEDY",
     "blockRefreshInterval": 1000,
     "txRefreshInterval": 20000,
     "connectionTimeout": 600,
@@ -49,44 +48,17 @@
     },
 
     "ports": {
-        "3008":{
-            "diff": 8,
-            "varDiff": {
-                "minDiff": 8,
-                "maxDiff": 512,
-                "targetTime": 15,
-                "retargetTime": 90,
-                "variancePercent": 30
-            }
-        },
-        "3032": {
-            "diff": 16
-        },
-        "3256": {
-            "diff": 256
+        "4073": {
+            "diff": 0.002
         }
     },
 
     "daemons": [
         {
             "host": "localhost",
-            "port": 19332,
-            "user": "litecoinrpc",
-            "password": "testnet"
-        },
-        {
-            "host": "localhost",
-            "port": 19344,
-            "user": "litecoinrpc",
-            "password": "testnet"
+            "port": 18342,
+            "user": "darkcoinrpc1",
+            "password": "testpass"
         }
-    ],
-
-    "p2p": {
-        "enabled": false,
-        "host": "localhost",
-        "port": 19333,
-        "protocolVersion": 70002,
-        "magic": "fcc1b7dc"
-    }
+    ]
 }
