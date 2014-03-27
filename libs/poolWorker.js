@@ -173,7 +173,7 @@ module.exports = function(logger){
                 return;
             } else {
                 proxyStuff.curActivePool = Object.keys(pools)[0];
-                break;
+                return;
             }
         };
 
