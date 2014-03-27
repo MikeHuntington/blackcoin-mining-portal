@@ -172,7 +172,8 @@ module.exports = function(logger){
                 logger.error('Master', coin, 'Share processing is not configured so a pool cannot be started for this coin.');
                 return;
             } else {
-                proxyStuff.curActivePool = Object.keys(pools)[0];
+                proxyStuff.curActivePool = pools[coin];
+                console.log('____________________________________________');
                 return;
             }
         });
