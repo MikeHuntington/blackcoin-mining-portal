@@ -2,7 +2,6 @@ var fs = require('fs');
 var os = require('os');
 var cluster = require('cluster');
 
-
 var async                    = require('async');
 var posix                    = require('posix');
 var PoolLogger               = require('./libs/logUtil.js');
@@ -93,8 +92,19 @@ var buildPoolConfigs = function(){
 
 
 var spawnPoolWorkers = function(portalConfig, poolConfigs){
-    var serializedConfigs = JSON.stringify(poolConfigs);
 
+    Object.keys(poolConfigs).forEach(function(coin){
+        var p = poolConfigs[coin];
+        var internalEnabled = p.shareProcessing && p.shareProcessing.internal && p.shareProcessing.internal.enabled;
+        var mposEnabled = p.shareProcesssing && p.shareProcessing.mpos && p.shareProcessing.mpos.enabled;
+
+        if (!internalEnabled && !mposEnabled){
+            logger.error('Master', coin, 'Share processing is not configured so a pool cannot be started for this coin.');
+            delete poolConfigs[coin];
+        }
+    });
+
+    var serializedConfigs = JSON.stringify(poolConfigs);
 
     var numForks = (function(){
         if (!portalConfig.clustering || !portalConfig.clustering.enabled)
@@ -179,6 +189,20 @@ var startRedisBlockListener = function(portalConfig){
 
 
 var startPaymentProcessor = function(poolConfigs){
+
+    var enabledForAny = false;
+    for (var pool in poolConfigs){
+        var p = poolConfigs[pool];
+        var enabled = !p.disabled && p.shareProcessing && p.shareProcessing.internal && p.shareProcessing.internal.enabled;
+        if (enabled){
+            enabledForAny = true;
+            break;
+        }
+    }
+
+    if (!enabledForAny)
+        return;
+
     var worker = cluster.fork({
         workerType: 'paymentProcessor',
         pools: JSON.stringify(poolConfigs)
