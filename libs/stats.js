@@ -77,23 +77,25 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
         async.waterfall([
 
-            function(cb){
+            function(callback){
 
                 _this.getBalanceByAddress(address, {
 
-                    cb();
+                    callback(null, 'test');
                 });
 
             },
 
-            function(){
+            function(msg, callback){
 
                 console.log('_________________________________________________');
 
                 console.log(_this.stats);
+
+                callback(null, msg);
             }
 
-        ], function(){
+        ], function(err, msg){
 
             cback({});
 
