@@ -164,7 +164,7 @@ module.exports = function(logger){
         Object.keys(pools).forEach(function(coin) {
             var p = pools[coin];
 
-            var internalEnabled = p.currentCoin;
+            var internalEnabled = p.options.currentCoin;
 
             console.log(p);
 
