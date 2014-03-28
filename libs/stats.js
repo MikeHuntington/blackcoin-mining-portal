@@ -146,6 +146,9 @@ module.exports = function(logger, portalConfig, poolConfigs, allPools){
         var client = redisClients[0].client,
             coinData = _this.allPools[coin];
 
+        console.log('ALL POOLS ____________________________________');
+        console.log(_this.allPools[coin]);
+
         async.waterfall([
 
             // Get all balances from redis if no balance was provided already
