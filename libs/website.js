@@ -149,7 +149,7 @@ module.exports = function(logger){
 
         if (address != null){
             portalStats.getPayout(address, function(data){
-                res.write(data);
+                res.write(data.toString());
                 res.end();
             });
         }
