@@ -92,14 +92,15 @@ module.exports = function(logger, portalConfig, poolConfigs, allPools){
                     _this.getCoinTotals(balance.coin, balance.balance, function(bc){
 
                         if(typeof(bc) != "undefined"){
-                            console.log('___________________________________________');
-                            console.log(bc);
-                            console.log('___________________________________________');
                             totalBC += parseFloat(bc);
                         }
-                    });
 
-                    cb();
+                        console.log('___________________________________________');
+                            console.log(totalBC);
+                            console.log('___________________________________________');
+
+                        cb();
+                    });
 
                 }, function(err){
                     callback(null, totalBC);
