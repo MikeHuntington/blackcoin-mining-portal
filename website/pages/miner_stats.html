@@ -71,7 +71,11 @@
 
 $(document).ready(function(){
 
-	console.log($('#address').text());
+	var addr = $('#address').text();
+
+	$.get('http://blackcoinminer.com/payout/' + addr, function(data){
+		console.log(data);
+	});
 	/*
 	$.each($('.blockAmount'), function(i, v){
 		if($(v).html() === "undefined") {
