@@ -95,10 +95,6 @@ module.exports = function(logger, portalConfig, poolConfigs, allPools){
                             totalBC += bc;
                         }
 
-                        console.log('___________________________________________');
-                            console.log(totalBC);
-                            console.log('___________________________________________');
-
                         cb();
                     });
 
@@ -109,9 +105,7 @@ module.exports = function(logger, portalConfig, poolConfigs, allPools){
 
         ], function(err, total){
 
-            console.log('FINAL___________________________________________');
-            console.log(total);
-            console.log('___________________________________________');
+            var total = total / 100000000;
 
             cback(total);
 
