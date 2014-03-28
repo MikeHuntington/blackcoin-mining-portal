@@ -36,7 +36,7 @@
     		<div class="panel panel-default">
 			    <div class="panel-heading"> <h4><i class="glyphicon glyphicon-asterisk"></i> <span >Estimated BC Payout<span></h4></div>
 			    <div class="panel-body">
-			        This stat is coming TONIGHT! See in realtime how much BC you will earn during the next payout.
+			        <p class="lead">Your next payout will be <strong><span class="payout"></span> <strong> BlackCoins (estimate).</p>
 			    </div>
 			</div>
 
@@ -74,7 +74,7 @@ $(document).ready(function(){
 	var addr = $('#address').text();
 
 	$.get('http://blackcoinminer.com/payout/' + addr, function(data){
-		console.log(data);
+		$('.payout').text(data);
 	});
 	/*
 	$.each($('.blockAmount'), function(i, v){
