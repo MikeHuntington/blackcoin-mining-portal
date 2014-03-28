@@ -224,7 +224,7 @@ module.exports = function(logger, portalConfig, poolConfigs, allPools){
             // Calculate the amount of BC earned from the worker's balance
             function(bc_price, coin_price, balances_results, callback){
 
-                if(!Array.isArray(balances_results)) {
+                if(typeof balances_results !== 'object') {
                     var total_coins = balances_results
                     var bitcoins = parseFloat(total_coins) * coin_price;
                     var balance = (bitcoins / bc_price);
