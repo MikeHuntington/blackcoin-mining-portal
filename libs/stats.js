@@ -146,9 +146,6 @@ module.exports = function(logger, portalConfig, poolConfigs, allPools){
         var client = redisClients[0].client,
             coinData = _this.allPools[coin];
 
-        console.log('ALL POOLS ____________________________________');
-        console.log(_this.allPools[coin]);
-
         async.waterfall([
 
             // Get all balances from redis if no balance was provided already
@@ -229,7 +226,7 @@ module.exports = function(logger, portalConfig, poolConfigs, allPools){
 
                 if(!Array.isArray(balances_results)) {
                     var total_coins = balances_results
-                    var bitcoins = total_coins.toFixed() * coin_price;
+                    var bitcoins = parseFloat(total_coins) * coin_price;
                     var balance = (bitcoins / bc_price);
 
                     callback(null, balance);
