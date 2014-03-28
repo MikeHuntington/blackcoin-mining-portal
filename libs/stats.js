@@ -96,10 +96,10 @@ module.exports = function(logger, portalConfig, poolConfigs, allPools){
                         }
                     });
 
-                    cb(null, totalBC);
+                    cb();
 
-                }, function(err, total){
-                    callback(null, total);
+                }, function(err){
+                    callback(null, totalBC);
                 });
             }
 
