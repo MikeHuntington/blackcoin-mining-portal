@@ -1,6 +1,6 @@
 {{? it.stats.balances }}
 <div>
-    <h1><strong>{{=it.stats.address}} </strong> </h1>
+    <h1><strong><span id="address">{{=it.stats.address}}<span></strong> </h1>
     <hr>
     <br>
 
@@ -70,6 +70,8 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
+
+	console.log($('#address').text());
 	/*
 	$.each($('.blockAmount'), function(i, v){
 		if($(v).html() === "undefined") {
