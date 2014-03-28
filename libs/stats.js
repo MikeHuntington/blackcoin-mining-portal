@@ -105,9 +105,7 @@ module.exports = function(logger, portalConfig, poolConfigs, allPools){
 
         ], function(err, total){
 
-            var total = total / 100000000;
-
-            cback(total);
+            cback(total.toFixed());
 
         });
     };
