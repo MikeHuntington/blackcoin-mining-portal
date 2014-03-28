@@ -105,6 +105,10 @@ module.exports = function(logger, portalConfig, poolConfigs, allPools){
 
         ], function(err, total){
 
+            console.log('___________________________________________');
+            console.log(total);
+            console.log('___________________________________________');
+            
             cback(total);
 
         });
