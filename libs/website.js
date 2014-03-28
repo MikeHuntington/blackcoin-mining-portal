@@ -150,6 +150,7 @@ module.exports = function(logger){
         if (address != null){
             portalStats.getPayout(address, function(data){
                 res.send(data);
+                res.end();
             });
         }
         else
