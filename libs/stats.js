@@ -91,19 +91,21 @@ module.exports = function(logger, portalConfig, poolConfigs, allPools){
 
                     _this.getCoinTotals(balance.coin, balance.balance, function(bc){
 
-                        console.log('___________________________________________');
-                        console.log(bc);
-                        console.log('___________________________________________');
+                        if(bc){
+                            totalBC += bc
+                        }
                     });
 
-                }, function(err){
-                    cback(msg);
+                    cb(totalBC);
+
+                }, function(err, total){
+                    callback(total);
                 });
             }
 
-        ], function(err, msg){
+        ], function(err, total){
 
-            cback({});
+            cback(total);
 
         });
     };
