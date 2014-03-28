@@ -217,19 +217,20 @@ var startPaymentProcessor = function(poolConfigs){
 };
 
 
-var startWebsite = function(portalConfig, poolConfigs){
+var startWebsite = function(portalConfig, poolConfigs, inactivePools){
 
     if (!portalConfig.website.enabled) return;
 
     var worker = cluster.fork({
         workerType: 'website',
         pools: JSON.stringify(poolConfigs),
+        inactivePools: JSON.stringify(inactivePools),
         portalConfig: JSON.stringify(portalConfig)
     });
     worker.on('exit', function(code, signal){
         logger.error('Master', 'Website', 'Website process died, spawning replacement...');
         setTimeout(function(){
-            startWebsite(portalConfig, poolConfigs);
+            startWebsite(portalConfig, poolConfigs, inactivePools);
         }, 2000);
     });
 };
@@ -250,6 +251,6 @@ var startWebsite = function(portalConfig, poolConfigs){
 
     startWorkerListener(poolConfigs);
 
-    startWebsite(portalConfig, poolConfigs);
+    startWebsite(portalConfig, poolConfigs, inactivePools);
 
 })();

@@ -3,12 +3,12 @@ var async = require('async');
 
 var stats = require('./stats.js');
 
-module.exports = function(logger, portalConfig, poolConfigs){
+module.exports = function(logger, portalConfig, poolConfigs, inactivePools){
 
 
     var _this = this;
 
-    var portalStats = this.stats = new stats(logger, portalConfig, poolConfigs);
+    var portalStats = this.stats = new stats(logger, portalConfig, poolConfigs, inactivePools);
 
     this.liveStatConnections = {};
 

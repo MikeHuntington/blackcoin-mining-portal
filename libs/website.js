@@ -15,10 +15,11 @@ module.exports = function(logger){
 
     var portalConfig = JSON.parse(process.env.portalConfig);
     var poolConfigs = JSON.parse(process.env.pools);
+    var inactivePools = JSON.parse(process.env.inactivePools);
 
     var websiteConfig = portalConfig.website;
 
-    var portalApi = new api(logger, portalConfig, poolConfigs);
+    var portalApi = new api(logger, portalConfig, poolConfigs, inactivePools);
     var portalStats = portalApi.stats;
 
     var logSystem = 'Website';

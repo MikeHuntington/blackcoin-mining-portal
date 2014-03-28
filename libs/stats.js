@@ -6,7 +6,7 @@ var os = require('os');
 var Stratum = require('stratum-pool');
 
 
-module.exports = function(logger, portalConfig, poolConfigs){
+module.exports = function(logger, portalConfig, poolConfigs, allPools){
 
     var _this = this;
 
@@ -56,6 +56,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
     this.statsString = '';
 
     this.poolConfigs = poolConfigs;
+    this.allPools = allPools;
 
     this.formatNumber = function(number){
         var parts = number.toString().split(".");
@@ -143,7 +144,7 @@ module.exports = function(logger, portalConfig, poolConfigs){
 
     this.getCoinTotals = function(coin, balance, cback){
         var client = redisClients[0].client,
-            coinData = _this.poolConfigs[coin];
+            coinData = _this.allPools[coin];
 
         async.waterfall([
 
