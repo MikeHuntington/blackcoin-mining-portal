@@ -91,10 +91,6 @@ module.exports = function(logger, portalConfig, poolConfigs, allPools){
 
                     _this.getCoinTotals(balance.coin, balance.balance, function(bc){
 
-                        console.log('RAW___________________________________________');
-                            console.log(bc);
-                            console.log('___________________________________________');
-
                         if(typeof(bc) != "undefined"){
                             console.log('___________________________________________');
                             console.log(bc);
